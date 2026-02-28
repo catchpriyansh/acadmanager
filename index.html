@@ -220,6 +220,12 @@ tr:hover td{background:#F8FAFC}
         <span class="icon">📅</span> Schedule
       </div>
     </div>
+    <div class="nav-section">
+      <div class="nav-label">Admin</div>
+      <div class="nav-item" onclick="navigate('settings')" data-page="settings">
+        <span class="icon">⚙️</span> Settings
+      </div>
+    </div>
     <div class="sidebar-footer">
       <button class="logout-btn" onclick="doLogout()">🚪 Sign Out</button>
     </div>
@@ -263,11 +269,7 @@ const CFG = {
   SHEETS_URL: '',   // Paste your Google Apps Script Web App URL here after deployment
   SEMESTER: 'Semester 1',
   YEAR: '2025-26',
-  COURSES: [
-    { id: 'sc',  name: 'Smart Cities',              code: 'CE',     color: '#3B82F6', bg: '#EFF6FF' },
-    { id: 'sg',  name: 'Sustainable Geotechnics',   code: 'CE 324', color: '#10B981', bg: '#ECFDF5' },
-    { id: 're',  name: 'Railway Engineering',        code: 'CE 322', color: '#8B5CF6', bg: '#F5F3FF' },
-  ],
+  // Courses now stored in localStorage — managed via Settings page
 };
 
 // Override with stored hash if user has changed password
@@ -314,8 +316,17 @@ function save(key, val) {
 }
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
 
+// ── Default courses (used only on first run if nothing in localStorage) ──
+const DEFAULT_COURSES = [
+  { id: 'sc',  name: 'Smart Cities',            code: 'CE',     color: '#3B82F6', bg: '#EFF6FF' },
+  { id: 'sg',  name: 'Sustainable Geotechnics', code: 'CE 324', color: '#10B981', bg: '#ECFDF5' },
+  { id: 're',  name: 'Railway Engineering',      code: 'CE 322', color: '#8B5CF6', bg: '#F5F3FF' },
+];
+
 // ── Data accessors ──
 const DB = {
+  courses: () => { const c = load('courses'); return c.length ? c : DEFAULT_COURSES; },
+  saveCourses: v => save('courses', v),
   students: () => load('students'),    // {id,name,rollNo,courseId}
   saveStudents: v => save('students',v),
   lectures: () => load('lectures'),    // {id,courseId,date,topic,duration,semesterLabel}
@@ -330,7 +341,7 @@ const DB = {
 //  ROUTING
 // ═══════════════════════════════════════════════════════
 let currentPage = 'dashboard';
-const PAGE_TITLES = { dashboard:'Dashboard', courses:'Courses', attendance:'Attendance', schedule:'Lecture Schedule' };
+const PAGE_TITLES = { dashboard:'Dashboard', courses:'Courses', attendance:'Attendance', schedule:'Lecture Schedule', settings:'Settings' };
 
 function navigate(page, params={}) {
   currentPage = page;
@@ -339,7 +350,7 @@ function navigate(page, params={}) {
   closeSidebar();
   const content = document.getElementById('content');
   content.innerHTML = '';
-  const renders = { dashboard: renderDashboard, courses: renderCourses, attendance: renderAttendance, schedule: renderSchedule };
+  const renders = { dashboard: renderDashboard, courses: renderCourses, attendance: renderAttendance, schedule: renderSchedule, settings: renderSettings };
   if (renders[page]) renders[page](params);
 }
 
@@ -383,7 +394,7 @@ function closeSidebar() {
 // ═══════════════════════════════════════════════════════
 //  HELPERS
 // ═══════════════════════════════════════════════════════
-function courseById(id) { return CFG.COURSES.find(c => c.id===id) || {name:'Unknown',color:'#64748B',bg:'#F8FAFC',code:''}; }
+function courseById(id) { return DB.courses().find(c => c.id===id) || {name:'Unknown',color:'#64748B',bg:'#F8FAFC',code:''}; }
 function todayStr() { return new Date().toISOString().slice(0,10); }
 function fmtDate(s) { if(!s) return '—'; const d=new Date(s+'T00:00:00'); return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}); }
 function pluralise(n,w) { return n+' '+w+(n===1?'':'s'); }
@@ -406,13 +417,13 @@ function renderDashboard() {
 
   // Per course student count
   const courseCounts = {};
-  CFG.COURSES.forEach(c => { courseCounts[c.id] = students.filter(s=>s.courseId===c.id).length; });
+  DB.courses().forEach(c => { courseCounts[c.id] = students.filter(s=>s.courseId===c.id).length; });
 
   let html = `
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-icon" style="background:#EFF6FF">📚</div>
-      <div><div class="stat-val">${CFG.COURSES.length}</div><div class="stat-lbl">Courses</div></div>
+      <div><div class="stat-val">${DB.courses().length}</div><div class="stat-lbl">Courses</div></div>
     </div>
     <div class="stat-card">
       <div class="stat-icon" style="background:#ECFDF5">👥</div>
@@ -477,7 +488,7 @@ function renderDashboard() {
     <div class="card-header"><h3>Course Overview</h3></div>
     <div class="card-body">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
-        ${CFG.COURSES.map(c => {
+        ${DB.courses().map(c => {
           const lecs = lectures.filter(l=>l.courseId===c.id);
           const studs = students.filter(s=>s.courseId===c.id);
           return `
@@ -517,7 +528,7 @@ function openAddTask() {
         <select id="t-pri"><option>High</option><option selected>Medium</option><option>Low</option></select></div>
       <div class="form-group"><label>Due Date</label><input type="date" id="t-due"></div>
       <div class="form-group"><label>Course (optional)</label>
-        <select id="t-course"><option value="">— None —</option>${CFG.COURSES.map(c=>`<option value="${c.id}">${c.name}</option>`).join('')}</select></div>
+        <select id="t-course"><option value="">— None —</option>${DB.courses().map(c=>`<option value="${c.id}">${c.name}</option>`).join('')}</select></div>
     </div>`,
     `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
      <button class="btn btn-primary" onclick="saveTask()">Save Task</button>`);
@@ -550,7 +561,7 @@ function renderCourses(params={}) {
 
   let html = `<div class="section-title">📚 All Courses — ${CFG.SEMESTER} ${CFG.YEAR}</div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
-    ${CFG.COURSES.map(c => {
+    ${DB.courses().map(c => {
       const studs = students.filter(s=>s.courseId===c.id);
       const lecs = lectures.filter(l=>l.courseId===c.id);
       return `<div class="card" style="cursor:pointer;border-top:4px solid ${c.color}" onclick="navigate('courses',{courseId:'${c.id}'})">
@@ -834,7 +845,7 @@ function updateAttSummary(lectureId) {
 function renderAttendance() {
   let html = `<div class="section-title">✅ Attendance Reports</div>`;
 
-  CFG.COURSES.forEach(c => {
+  DB.courses().forEach(c => {
     const students = DB.students().filter(s=>s.courseId===c.id);
     const lectures = DB.lectures().filter(l=>l.courseId===c.id).sort((a,b)=>a.date>b.date?1:-1);
     const att = DB.attendance();
@@ -935,7 +946,7 @@ function renderSchedule() {
 function pickCourseForLecture() {
   openModal('Select Course', `
     <div style="display:flex;flex-direction:column;gap:10px">
-      ${CFG.COURSES.map(c=>`
+      ${DB.courses().map(c=>`
         <div class="today-class" onclick="closeModal();openAddLecture('${c.id}')" style="border:1px solid ${c.color}40">
           <div class="today-dot" style="background:${c.color}"></div>
           <div><strong>${c.name}</strong><div style="font-size:12px;color:var(--text-muted)">${c.code}</div></div>
@@ -1058,6 +1069,196 @@ function saveSheetsUrl() {
   localStorage.setItem('acad_sheets_url', url);
   closeModal();
   syncToSheets();
+}
+
+// ═══════════════════════════════════════════════════════
+//  PAGE: SETTINGS
+// ═══════════════════════════════════════════════════════
+const COURSE_COLORS = [
+  { color:'#3B82F6', bg:'#EFF6FF', label:'Blue'   },
+  { color:'#10B981', bg:'#ECFDF5', label:'Green'  },
+  { color:'#8B5CF6', bg:'#F5F3FF', label:'Purple' },
+  { color:'#EF4444', bg:'#FEF2F2', label:'Red'    },
+  { color:'#F59E0B', bg:'#FFFBEB', label:'Amber'  },
+  { color:'#EC4899', bg:'#FDF2F8', label:'Pink'   },
+  { color:'#06B6D4', bg:'#ECFEFF', label:'Cyan'   },
+  { color:'#64748B', bg:'#F8FAFC', label:'Slate'  },
+];
+
+function renderSettings() {
+  const courses = DB.courses();
+  const colorSwatches = COURSE_COLORS.map((cc,i) =>
+    `<div class="color-swatch" data-idx="${i}" style="width:28px;height:28px;border-radius:50%;background:${cc.color};cursor:pointer;border:2px solid transparent" title="${cc.label}" onclick="selectColor(${i})"></div>`
+  ).join('');
+
+  let html = `
+  <div class="section-title">⚙️ Settings</div>
+
+  <!-- COURSES MANAGEMENT -->
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header">
+      <h3>📚 Manage Courses</h3>
+      <button class="btn btn-primary btn-sm" onclick="openAddCourse()">+ Add Course</button>
+    </div>
+    <div class="card-body" style="padding:0">
+      ${courses.length === 0 ? '<div class="empty">No courses. Add one above.</div>' : `
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Color</th><th>Course Name</th><th>Code</th><th>Students</th><th>Actions</th></tr></thead>
+          <tbody>
+            ${courses.map(c => {
+              const studs = DB.students().filter(s=>s.courseId===c.id).length;
+              return `<tr>
+                <td><div style="width:20px;height:20px;border-radius:50%;background:${c.color}"></div></td>
+                <td style="font-weight:600">${c.name}</td>
+                <td><span class="course-chip" style="background:${c.color}20;color:${c.color}">${c.code||'—'}</span></td>
+                <td>${studs}</td>
+                <td style="display:flex;gap:6px">
+                  <button class="btn btn-outline btn-sm" onclick="openEditCourse('${c.id}')">✏️ Edit</button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteCourse('${c.id}')">🗑 Delete</button>
+                </td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`}
+    </div>
+  </div>
+
+  <!-- GOOGLE SHEETS -->
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header"><h3>☁️ Google Sheets Sync</h3></div>
+    <div class="card-body">
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Apps Script Web App URL</label>
+        <input id="cfg-sheets" value="${CFG.SHEETS_URL}" placeholder="https://script.google.com/macros/s/...">
+      </div>
+      <button class="btn btn-primary" onclick="saveSheetsUrlFromSettings()">Save URL</button>
+      ${CFG.SHEETS_URL ? `<button class="btn btn-outline" style="margin-left:8px" onclick="loadFromSheets()">⬇ Load from Sheets</button>` : ''}
+    </div>
+  </div>
+
+  <!-- CHANGE PASSWORD -->
+  <div class="card">
+    <div class="card-header"><h3>🔑 Change Password</h3></div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="form-group"><label>New Password</label><input type="password" id="cfg-pwd1" placeholder="New password"></div>
+        <div class="form-group"><label>Confirm Password</label><input type="password" id="cfg-pwd2" placeholder="Repeat password"></div>
+      </div>
+      <button class="btn btn-primary" style="margin-top:14px" onclick="changePassword()">Update Password</button>
+    </div>
+  </div>`;
+
+  document.getElementById('content').innerHTML = html;
+}
+
+// ── Add Course ──
+function openAddCourse() {
+  openModal('Add New Course', buildCourseForm(), `
+    <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveCourse(null)">Add Course</button>`);
+  selectColor(0);
+}
+
+function openEditCourse(id) {
+  const c = courseById(id);
+  openModal('Edit Course', buildCourseForm(c), `
+    <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveCourse('${id}')">Save Changes</button>`);
+  const colorIdx = COURSE_COLORS.findIndex(cc => cc.color === c.color);
+  selectColor(colorIdx >= 0 ? colorIdx : 0);
+}
+
+function buildCourseForm(c={}) {
+  const swatches = COURSE_COLORS.map((cc,i) =>
+    `<div class="color-swatch" data-idx="${i}" style="width:32px;height:32px;border-radius:50%;background:${cc.color};cursor:pointer;border:3px solid transparent;transition:.15s" title="${cc.label}" onclick="selectColor(${i})"></div>`
+  ).join('');
+  return `
+    <div class="form-grid">
+      <div class="form-group" style="grid-column:1/-1">
+        <label>Course Name *</label>
+        <input id="c-name" placeholder="e.g. Foundation Engineering" value="${c.name||''}">
+      </div>
+      <div class="form-group">
+        <label>Course Code</label>
+        <input id="c-code" placeholder="e.g. CE 301" value="${c.code||''}">
+      </div>
+      <div class="form-group">
+        <label>Colour</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${swatches}</div>
+        <input type="hidden" id="c-color" value="${c.color||COURSE_COLORS[0].color}">
+        <input type="hidden" id="c-bg"    value="${c.bg   ||COURSE_COLORS[0].bg}">
+      </div>
+    </div>`;
+}
+
+function selectColor(idx) {
+  const cc = COURSE_COLORS[idx];
+  document.querySelectorAll('.color-swatch').forEach((el,i) => {
+    el.style.border = i===idx ? `3px solid #1B3A6B` : '3px solid transparent';
+  });
+  const ci = document.getElementById('c-color');
+  const bi = document.getElementById('c-bg');
+  if (ci) ci.value = cc.color;
+  if (bi) bi.value = cc.bg;
+}
+
+function saveCourse(id) {
+  const name = document.getElementById('c-name').value.trim();
+  if (!name) { toast('Course name is required','error'); return; }
+  const code  = document.getElementById('c-code').value.trim();
+  const color = document.getElementById('c-color').value;
+  const bg    = document.getElementById('c-bg').value;
+  const courses = DB.courses();
+  if (id) {
+    // Edit existing
+    const idx = courses.findIndex(c=>c.id===id);
+    if (idx>=0) { courses[idx] = { ...courses[idx], name, code, color, bg }; }
+  } else {
+    // Add new
+    courses.push({ id: uid(), name, code, color, bg });
+  }
+  DB.saveCourses(courses);
+  closeModal();
+  toast(id ? 'Course updated' : 'Course added','ok');
+  renderSettings();
+}
+
+function deleteCourse(id) {
+  const studs = DB.students().filter(s=>s.courseId===id).length;
+  const lecs  = DB.lectures().filter(l=>l.courseId===id).length;
+  let warn = 'Delete this course?';
+  if (studs || lecs) warn = `This course has ${studs} student(s) and ${lecs} lecture(s). All their data will also be removed. Continue?`;
+  if (!confirm(warn)) return;
+  DB.saveCourses(DB.courses().filter(c=>c.id!==id));
+  DB.saveStudents(DB.students().filter(s=>s.courseId!==id));
+  const lectureIds = DB.lectures().filter(l=>l.courseId===id).map(l=>l.id);
+  DB.saveLectures(DB.lectures().filter(l=>l.courseId!==id));
+  DB.saveAttendance(DB.attendance().filter(a=>!lectureIds.includes(a.lectureId)));
+  toast('Course deleted');
+  renderSettings();
+}
+
+// ── Settings helpers ──
+function saveSheetsUrlFromSettings() {
+  const url = document.getElementById('cfg-sheets').value.trim();
+  CFG.SHEETS_URL = url;
+  localStorage.setItem('acad_sheets_url', url);
+  toast('Sheets URL saved','ok');
+}
+
+async function changePassword() {
+  const p1 = document.getElementById('cfg-pwd1').value;
+  const p2 = document.getElementById('cfg-pwd2').value;
+  if (!p1) { toast('Enter a new password','error'); return; }
+  if (p1 !== p2) { toast('Passwords do not match','error'); return; }
+  const hash = await sha256(p1);
+  CFG.PASSWORD_HASH = hash;
+  localStorage.setItem('acad_pwd_hash', hash);
+  document.getElementById('cfg-pwd1').value = '';
+  document.getElementById('cfg-pwd2').value = '';
+  toast('Password changed successfully','ok');
 }
 
 // ═══════════════════════════════════════════════════════

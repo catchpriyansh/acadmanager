@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AcadManager — Dr. Priyansh Singh | IIT Indore</title>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+<style>
+:root {
+  --primary: #1B3A6B;
+  --primary-light: #2756A8;
+  --accent: #F59E0B;
+  --danger: #EF4444;
+  --success: #10B981;
+  --warn: #F59E0B;
+  --bg: #F0F4F8;
+  --card: #FFFFFF;
+  --text: #1E293B;
+  --text-muted: #64748B;
+  --border: #E2E8F0;
+  --sidebar-w: 240px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── LOGIN ── */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%)}
+.login-box{background:#fff;border-radius:16px;padding:40px 36px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center}
+.login-logo{width:64px;height:64px;background:var(--primary);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px}
+.login-box h1{font-size:22px;color:var(--primary);margin-bottom:4px}
+.login-box p{font-size:13px;color:var(--text-muted);margin-bottom:28px}
+.login-box input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;outline:none;transition:.2s}
+.login-box input:focus{border-color:var(--primary-light)}
+.login-btn{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;margin-top:14px;transition:.2s}
+.login-btn:hover{background:var(--primary-light)}
+#login-error{color:var(--danger);font-size:13px;margin-top:10px;display:none}
+
+/* ── APP SHELL ── */
+#app{display:none;min-height:100vh}
+.shell{display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);background:var(--primary);color:#fff;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .3s}
+.sidebar-header{padding:20px 18px 14px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sidebar-header h2{font-size:14px;font-weight:700;letter-spacing:.5px;opacity:.7;text-transform:uppercase}
+.sidebar-header p{font-size:13px;margin-top:2px;opacity:.9}
+.nav-section{padding:10px 0}
+.nav-label{font-size:10px;font-weight:700;letter-spacing:1px;opacity:.5;padding:8px 18px 4px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 18px;cursor:pointer;font-size:14px;font-weight:500;transition:.15s;border-left:3px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.08)}
+.nav-item.active{background:rgba(255,255,255,.12);border-left-color:var(--accent)}
+.nav-item .icon{font-size:18px;width:22px;text-align:center}
+.sidebar-footer{margin-top:auto;padding:14px 18px;border-top:1px solid rgba(255,255,255,.1)}
+.logout-btn{background:rgba(255,255,255,.1);border:none;color:#fff;padding:9px 14px;border-radius:8px;cursor:pointer;font-size:13px;width:100%;text-align:left;display:flex;align-items:center;gap:8px}
+.logout-btn:hover{background:rgba(255,255,255,.2)}
+
+/* ── MAIN ── */
+.main{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:50}
+.topbar h1{font-size:18px;font-weight:700;color:var(--primary);flex:1}
+.hamburger{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--primary)}
+.sync-btn{background:var(--primary);color:#fff;border:none;padding:7px 16px;border-radius:7px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.sync-btn:hover{background:var(--primary-light)}
+.sync-status{font-size:12px;color:var(--text-muted)}
+.content{padding:24px;flex:1}
+
+/* ── CARDS & GRIDS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{background:var(--card);border-radius:12px;padding:18px;border:1px solid var(--border);display:flex;align-items:flex-start;gap:14px}
+.stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.stat-val{font-size:26px;font-weight:700;line-height:1}
+.stat-lbl{font-size:12px;color:var(--text-muted);margin-top:3px}
+.section-title{font-size:16px;font-weight:700;color:var(--primary);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card{background:var(--card);border-radius:12px;border:1px solid var(--border);margin-bottom:20px;overflow:hidden}
+.card-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.card-header h3{font-size:15px;font-weight:700;color:var(--primary)}
+.card-body{padding:18px}
+.empty{text-align:center;color:var(--text-muted);padding:40px 20px;font-size:14px}
+
+/* ── COURSE CHIPS ── */
+.course-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}
+
+/* ── TABLES ── */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:#F8FAFC;padding:10px 12px;text-align:left;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#F8FAFC}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:.15s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-light)}
+.btn-outline{background:#fff;color:var(--primary);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--primary);background:#F0F4F8}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover{background:#DC2626}
+.btn-success{background:var(--success);color:#fff}
+.btn-sm{padding:5px 11px;font-size:12px}
+.btn-icon{padding:6px 8px;font-size:16px}
+
+/* ── BADGES ── */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.badge-p{background:#DCFCE7;color:#166534}
+.badge-a{background:#FEE2E2;color:#991B1B}
+.badge-l{background:#FEF9C3;color:#854D0E}
+.badge-pending{background:#FEF9C3;color:#854D0E}
+.badge-done{background:#DCFCE7;color:#166534}
+
+/* ── FORMS ── */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group label{font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px}
+.form-group input,.form-group select,.form-group textarea{padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;outline:none;font-family:inherit;transition:.2s;background:#fff}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--primary-light)}
+.form-group textarea{resize:vertical;min-height:70px}
+
+/* ── ATTENDANCE GRID ── */
+.att-grid{display:grid;gap:10px}
+.att-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border)}
+.att-name{flex:1;font-size:14px;font-weight:500}
+.att-roll{font-size:12px;color:var(--text-muted)}
+.att-btns{display:flex;gap:6px}
+.att-btn{padding:5px 12px;border-radius:6px;border:1.5px solid transparent;font-size:12px;font-weight:700;cursor:pointer;transition:.15s}
+.att-btn.P{background:#DCFCE7;color:#166534;border-color:#BBF7D0}
+.att-btn.A{background:#FEE2E2;color:#991B1B;border-color:#FECACA}
+.att-btn.L{background:#FEF9C3;color:#854D0E;border-color:#FDE68A}
+.att-btn.active-P{background:#16A34A;color:#fff;border-color:#16A34A}
+.att-btn.active-A{background:#DC2626;color:#fff;border-color:#DC2626}
+.att-btn.active-L{background:#CA8A04;color:#fff;border-color:#CA8A04}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:16px}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:14px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,.3)}
+.modal-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1}
+.modal-header h3{font-size:16px;font-weight:700;color:var(--primary)}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-muted);line-height:1}
+.modal-body{padding:20px}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 18px;border-radius:10px;font-size:14px;z-index:999;opacity:0;transform:translateY(10px);transition:.3s;pointer-events:none}
+#toast.show{opacity:1;transform:translateY(0)}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px}
+.tab{padding:10px 18px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text-muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:.15s}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* ── TODAY CARD ── */
+.today-class{display:flex;align-items:center;gap:14px;padding:12px;border-radius:10px;border:1px solid var(--border);margin-bottom:10px;background:#fff;cursor:pointer;transition:.15s}
+.today-class:hover{border-color:var(--primary-light);background:#F0F4F8}
+.today-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.today-info{flex:1}
+.today-info strong{font-size:14px;display:block}
+.today-info span{font-size:12px;color:var(--text-muted)}
+.today-time{font-size:13px;font-weight:600;color:var(--primary)}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .hamburger{display:block}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .content{padding:16px}
+  .att-row{flex-wrap:wrap}
+  .form-grid{grid-template-columns:1fr}
+}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
+.sidebar-overlay.open{display:block}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">🎓</div>
+    <h1>AcadManager</h1>
+    <p>Dr. Priyansh Singh · IIT Indore<br>Dept. of Civil Engineering</p>
+    <input type="password" id="pwd-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Sign In</button>
+    <div id="login-error">Incorrect password. Please try again.</div>
+  </div>
+</div>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- APP -->
+<div id="app">
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>AcadManager</h2>
+      <p>Dr. Priyansh Singh</p>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Main</div>
+      <div class="nav-item active" onclick="navigate('dashboard')" data-page="dashboard">
+        <span class="icon">📊</span> Dashboard
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Module 1</div>
+      <div class="nav-item" onclick="navigate('courses')" data-page="courses">
+        <span class="icon">📚</span> Courses
+      </div>
+      <div class="nav-item" onclick="navigate('attendance')" data-page="attendance">
+        <span class="icon">✅</span> Attendance
+      </div>
+      <div class="nav-item" onclick="navigate('schedule')" data-page="schedule">
+        <span class="icon">📅</span> Schedule
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="doLogout()">🚪 Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <button class="hamburger" onclick="openSidebar()">☰</button>
+      <h1 id="page-title">Dashboard</h1>
+      <span class="sync-status" id="sync-status"></span>
+      <button class="sync-btn" onclick="syncToSheets()" id="sync-btn">⬆ Sync</button>
+    </div>
+    <div class="content" id="content"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- MODALS (populated by JS) -->
+<div class="overlay" id="modal-overlay">
+  <div class="modal" id="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-title"></h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONFIG — edit this section to change password & Sheets URL
+// ═══════════════════════════════════════════════════════
+const CFG = {
+  // SHA-256 hash of "IITIndore@2025" — change via Settings (to be added)
+  PASSWORD_HASH: 'df9b9e81fd3de3e7d1b0b9e6d1e8e0e0a5c7b4f3e2d1c0b9a8f7e6d5c4b3a291',
+  SHEETS_URL: '',   // Paste your Google Apps Script Web App URL here after deployment
+  SEMESTER: 'Semester 1',
+  YEAR: '2025-26',
+  COURSES: [
+    { id: 'sc',  name: 'Smart Cities',              code: 'CE',     color: '#3B82F6', bg: '#EFF6FF' },
+    { id: 'sg',  name: 'Sustainable Geotechnics',   code: 'CE 324', color: '#10B981', bg: '#ECFDF5' },
+    { id: 're',  name: 'Railway Engineering',        code: 'CE 322', color: '#8B5CF6', bg: '#F5F3FF' },
+  ],
+};
+
+// Override with stored hash if user has changed password
+const storedHash = localStorage.getItem('acad_pwd_hash');
+if (storedHash) CFG.PASSWORD_HASH = storedHash;
+const storedSheetsUrl = localStorage.getItem('acad_sheets_url');
+if (storedSheetsUrl) CFG.SHEETS_URL = storedSheetsUrl;
+
+// ═══════════════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════════════
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function doLogin() {
+  const val = document.getElementById('pwd-input').value;
+  const hash = await sha256(val);
+  if (hash === CFG.PASSWORD_HASH) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    sessionStorage.setItem('acad_auth','1');
+    navigate('dashboard');
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('acad_auth');
+  location.reload();
+}
+
+// ═══════════════════════════════════════════════════════
+//  DATA LAYER (LocalStorage)
+// ═══════════════════════════════════════════════════════
+function load(key) {
+  try { return JSON.parse(localStorage.getItem('acad_'+key)) || []; }
+  catch { return []; }
+}
+function save(key, val) {
+  localStorage.setItem('acad_'+key, JSON.stringify(val));
+}
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+// ── Data accessors ──
+const DB = {
+  students: () => load('students'),    // {id,name,rollNo,courseId}
+  saveStudents: v => save('students',v),
+  lectures: () => load('lectures'),    // {id,courseId,date,topic,duration,semesterLabel}
+  saveLectures: v => save('lectures',v),
+  attendance: () => load('attendance'),// {id,lectureId,studentId,status} P/A/L
+  saveAttendance: v => save('attendance',v),
+  tasks: () => load('tasks'),          // {id,title,courseId,priority,dueDate,status}
+  saveTasks: v => save('tasks',v),
+};
+
+// ═══════════════════════════════════════════════════════
+//  ROUTING
+// ═══════════════════════════════════════════════════════
+let currentPage = 'dashboard';
+const PAGE_TITLES = { dashboard:'Dashboard', courses:'Courses', attendance:'Attendance', schedule:'Lecture Schedule' };
+
+function navigate(page, params={}) {
+  currentPage = page;
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.toggle('active', el.dataset.page === page));
+  document.getElementById('page-title').textContent = PAGE_TITLES[page] || page;
+  closeSidebar();
+  const content = document.getElementById('content');
+  content.innerHTML = '';
+  const renders = { dashboard: renderDashboard, courses: renderCourses, attendance: renderAttendance, schedule: renderSchedule };
+  if (renders[page]) renders[page](params);
+}
+
+// ═══════════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════════
+let toastTimer;
+function toast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = type==='error' ? '#DC2626' : type==='ok' ? '#16A34A' : '#1E293B';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ═══════════════════════════════════════════════════════
+//  MODAL
+// ═══════════════════════════════════════════════════════
+function openModal(title, bodyHTML, footerHTML='') {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = bodyHTML;
+  document.getElementById('modal-footer').innerHTML = footerHTML;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+document.getElementById('modal-overlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
+
+// ═══════════════════════════════════════════════════════
+//  SIDEBAR (mobile)
+// ═══════════════════════════════════════════════════════
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebar-overlay').classList.add('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+// ═══════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════
+function courseById(id) { return CFG.COURSES.find(c => c.id===id) || {name:'Unknown',color:'#64748B',bg:'#F8FAFC',code:''}; }
+function todayStr() { return new Date().toISOString().slice(0,10); }
+function fmtDate(s) { if(!s) return '—'; const d=new Date(s+'T00:00:00'); return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}); }
+function pluralise(n,w) { return n+' '+w+(n===1?'':'s'); }
+
+// ═══════════════════════════════════════════════════════
+//  PAGE: DASHBOARD
+// ═══════════════════════════════════════════════════════
+function renderDashboard() {
+  const students = DB.students();
+  const lectures = DB.lectures();
+  const att = DB.attendance();
+  const tasks = DB.tasks();
+  const today = todayStr();
+
+  // Stats
+  const totalStudents = students.length;
+  const totalLectures = lectures.length;
+  const pendingTasks = tasks.filter(t=>t.status!=='done').length;
+  const todayLectures = lectures.filter(l=>l.date===today);
+
+  // Per course student count
+  const courseCounts = {};
+  CFG.COURSES.forEach(c => { courseCounts[c.id] = students.filter(s=>s.courseId===c.id).length; });
+
+  let html = `
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#EFF6FF">📚</div>
+      <div><div class="stat-val">${CFG.COURSES.length}</div><div class="stat-lbl">Courses</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#ECFDF5">👥</div>
+      <div><div class="stat-val">${totalStudents}</div><div class="stat-lbl">Students Enrolled</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#F5F3FF">📖</div>
+      <div><div class="stat-val">${totalLectures}</div><div class="stat-lbl">Lectures Held</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#FEF9C3">⚡</div>
+      <div><div class="stat-val">${pendingTasks}</div><div class="stat-lbl">Pending Tasks</div></div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px" class="dash-cols">
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Today's Classes <span style="font-size:12px;color:var(--text-muted);font-weight:400">${fmtDate(today)}</span></h3>
+        <button class="btn btn-primary btn-sm" onclick="navigate('schedule')">+ Add Lecture</button>
+      </div>
+      <div class="card-body">
+        ${todayLectures.length===0 ? '<div class="empty">No lectures scheduled today.</div>' :
+          todayLectures.map(l => {
+            const c = courseById(l.courseId);
+            return `<div class="today-class" onclick="openLectureDetail('${l.id}')">
+              <div class="today-dot" style="background:${c.color}"></div>
+              <div class="today-info">
+                <strong>${c.name}</strong>
+                <span>${l.topic||'Topic not set'}</span>
+              </div>
+              <div class="today-time">${l.duration||'—'} hr</div>
+            </div>`;
+          }).join('')
+        }
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Quick Tasks</h3>
+        <button class="btn btn-primary btn-sm" onclick="openAddTask()">+ Add</button>
+      </div>
+      <div class="card-body" style="padding:10px">
+        ${tasks.filter(t=>t.status!=='done').slice(0,5).map(t => `
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 8px;border-bottom:1px solid var(--border)">
+            <input type="checkbox" onchange="toggleTask('${t.id}',this)" style="cursor:pointer;width:16px;height:16px">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.title}</div>
+              ${t.dueDate ? `<div style="font-size:11px;color:var(--text-muted)">${fmtDate(t.dueDate)}</div>` : ''}
+            </div>
+            <span class="badge badge-${priorityClass(t.priority)}">${t.priority||'—'}</span>
+          </div>`).join('')}
+        ${tasks.filter(t=>t.status!=='done').length===0 ? '<div class="empty">No pending tasks 🎉</div>' : ''}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>Course Overview</h3></div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+        ${CFG.COURSES.map(c => {
+          const lecs = lectures.filter(l=>l.courseId===c.id);
+          const studs = students.filter(s=>s.courseId===c.id);
+          return `
+          <div style="border:1px solid ${c.color}30;border-radius:10px;padding:16px;background:${c.bg};cursor:pointer" onclick="navigate('courses',{courseId:'${c.id}'})">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <span class="course-chip" style="background:${c.color}20;color:${c.color}">${c.code}</span>
+            </div>
+            <div style="font-size:15px;font-weight:700;color:var(--primary);margin-bottom:8px">${c.name}</div>
+            <div style="display:flex;gap:16px;font-size:13px;color:var(--text-muted)">
+              <span>👥 ${studs.length} students</span>
+              <span>📖 ${lecs.length} lectures</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  </div>`;
+
+  // Mobile: stack the dash-cols
+  html += `<style>.dash-cols{grid-template-columns:1fr 1fr}@media(max-width:640px){.dash-cols{grid-template-columns:1fr!important}}</style>`;
+  document.getElementById('content').innerHTML = html;
+}
+
+function priorityClass(p) { return p==='High'?'a': p==='Medium'?'pending':'done'; }
+
+function toggleTask(id, cb) {
+  const tasks = DB.tasks();
+  const t = tasks.find(t=>t.id===id);
+  if (t) { t.status = cb.checked ? 'done' : 'pending'; DB.saveTasks(tasks); toast('Task updated','ok'); }
+}
+
+function openAddTask() {
+  openModal('Add Task', `
+    <div class="form-grid">
+      <div class="form-group" style="grid-column:1/-1"><label>Task</label><input id="t-title" placeholder="e.g. Prepare quiz for CE 324"></div>
+      <div class="form-group"><label>Priority</label>
+        <select id="t-pri"><option>High</option><option selected>Medium</option><option>Low</option></select></div>
+      <div class="form-group"><label>Due Date</label><input type="date" id="t-due"></div>
+      <div class="form-group"><label>Course (optional)</label>
+        <select id="t-course"><option value="">— None —</option>${CFG.COURSES.map(c=>`<option value="${c.id}">${c.name}</option>`).join('')}</select></div>
+    </div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="saveTask()">Save Task</button>`);
+}
+
+function saveTask() {
+  const title = document.getElementById('t-title').value.trim();
+  if (!title) { toast('Enter a task title','error'); return; }
+  const tasks = DB.tasks();
+  tasks.push({ id:uid(), title, priority:document.getElementById('t-pri').value,
+    dueDate:document.getElementById('t-due').value, courseId:document.getElementById('t-course').value, status:'pending' });
+  DB.saveTasks(tasks);
+  closeModal();
+  toast('Task added','ok');
+  renderDashboard();
+}
+
+// ═══════════════════════════════════════════════════════
+//  PAGE: COURSES
+// ═══════════════════════════════════════════════════════
+function renderCourses(params={}) {
+  const students = DB.students();
+  const lectures = DB.lectures();
+
+  // If a specific course is selected, show its detail
+  if (params.courseId) {
+    renderCourseDetail(params.courseId);
+    return;
+  }
+
+  let html = `<div class="section-title">📚 All Courses — ${CFG.SEMESTER} ${CFG.YEAR}</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
+    ${CFG.COURSES.map(c => {
+      const studs = students.filter(s=>s.courseId===c.id);
+      const lecs = lectures.filter(l=>l.courseId===c.id);
+      return `<div class="card" style="cursor:pointer;border-top:4px solid ${c.color}" onclick="navigate('courses',{courseId:'${c.id}'})">
+        <div class="card-body">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+            <span class="course-chip" style="background:${c.color}20;color:${c.color}">${c.code}</span>
+          </div>
+          <h3 style="font-size:18px;color:var(--primary);margin-bottom:12px">${c.name}</h3>
+          <div style="display:flex;gap:14px;font-size:14px;color:var(--text-muted)">
+            <span>👥 ${studs.length} students</span>
+            <span>📖 ${lecs.length} lectures</span>
+          </div>
+          <div style="margin-top:12px;font-size:13px;color:var(--primary-light)">Click to manage →</div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+  document.getElementById('content').innerHTML = html;
+}
+
+function renderCourseDetail(courseId) {
+  const c = courseById(courseId);
+  const students = DB.students().filter(s=>s.courseId===courseId);
+  const lectures = DB.lectures().filter(l=>l.courseId===courseId);
+
+  let html = `
+  <div style="margin-bottom:16px">
+    <button class="btn btn-outline btn-sm" onclick="navigate('courses')">← Back</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <div style="width:48px;height:48px;border-radius:12px;background:${c.color};display:flex;align-items:center;justify-content:center;font-size:22px">📚</div>
+    <div>
+      <h2 style="font-size:20px;color:var(--primary)">${c.name}</h2>
+      <span class="course-chip" style="background:${c.color}20;color:${c.color}">${c.code}</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('students')">👥 Students (${students.length})</div>
+    <div class="tab" onclick="switchTab('lectures')">📖 Lectures (${lectures.length})</div>
+  </div>
+
+  <div id="tab-students" class="tab-pane active">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;gap:8px">
+      <button class="btn btn-outline btn-sm" onclick="importStudents('${courseId}')">📋 Bulk Import</button>
+      <button class="btn btn-primary btn-sm" onclick="openAddStudent('${courseId}')">+ Add Student</button>
+    </div>
+    ${students.length===0 ? '<div class="empty">No students yet. Add students to track attendance.</div>' : `
+    <div class="card">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Roll No</th><th>Name</th><th>Actions</th></tr></thead>
+          <tbody>
+            ${students.map((s,i) => `<tr>
+              <td>${i+1}</td>
+              <td style="font-weight:600">${s.rollNo||'—'}</td>
+              <td>${s.name}</td>
+              <td><button class="btn btn-danger btn-sm btn-icon" onclick="deleteStudent('${s.id}','${courseId}')">🗑</button></td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`}
+  </div>
+
+  <div id="tab-lectures" class="tab-pane">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+      <button class="btn btn-primary btn-sm" onclick="openAddLecture('${courseId}')">+ Add Lecture</button>
+    </div>
+    ${lectures.length===0 ? '<div class="empty">No lectures recorded yet.</div>' : `
+    <div class="card">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Date</th><th>Topic</th><th>Duration</th><th>Attendance</th><th>Actions</th></tr></thead>
+          <tbody>
+            ${lectures.sort((a,b)=>a.date>b.date?-1:1).map((l,i) => {
+              const att = DB.attendance().filter(a=>a.lectureId===l.id);
+              const p = att.filter(a=>a.status==='P').length;
+              const total = students.length;
+              return `<tr>
+                <td>${lectures.length-i}</td>
+                <td>${fmtDate(l.date)}</td>
+                <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.topic||'—'}</td>
+                <td>${l.duration||'—'} hr</td>
+                <td>${total>0?`${p}/${total}`:'—'}</td>
+                <td style="display:flex;gap:6px">
+                  <button class="btn btn-outline btn-sm" onclick="openAttendance('${l.id}','${courseId}')">Mark</button>
+                  <button class="btn btn-danger btn-sm btn-icon" onclick="deleteLecture('${l.id}','${courseId}')">🗑</button>
+                </td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`}
+  </div>`;
+
+  document.getElementById('content').innerHTML = html;
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const panes = document.querySelectorAll('.tab-pane');
+    const names = ['students','lectures'];
+    const idx = names.indexOf(name);
+    t.classList.toggle('active', i===idx);
+    if(panes[i]) panes[i].classList.toggle('active', i===idx);
+  });
+}
+
+// ── Add Student ──
+function openAddStudent(courseId) {
+  openModal('Add Student', `
+    <div class="form-grid">
+      <div class="form-group"><label>Full Name *</label><input id="s-name" placeholder="e.g. Rahul Sharma"></div>
+      <div class="form-group"><label>Roll Number</label><input id="s-roll" placeholder="e.g. 220001CE"></div>
+    </div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="saveStudent('${courseId}')">Add Student</button>`);
+}
+
+function saveStudent(courseId) {
+  const name = document.getElementById('s-name').value.trim();
+  if (!name) { toast('Name required','error'); return; }
+  const students = DB.students();
+  students.push({ id:uid(), name, rollNo:document.getElementById('s-roll').value.trim(), courseId });
+  DB.saveStudents(students);
+  closeModal();
+  toast('Student added','ok');
+  renderCourseDetail(courseId);
+}
+
+function deleteStudent(id, courseId) {
+  if (!confirm('Remove this student?')) return;
+  DB.saveStudents(DB.students().filter(s=>s.id!==id));
+  // Remove their attendance
+  DB.saveAttendance(DB.attendance().filter(a=>a.studentId!==id));
+  toast('Student removed');
+  renderCourseDetail(courseId);
+}
+
+// ── Bulk import ──
+function importStudents(courseId) {
+  openModal('Bulk Import Students', `
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Paste one student per line. Format: <strong>Roll Number, Full Name</strong></p>
+    <div class="form-group"><label>Student List</label>
+    <textarea id="bulk-txt" style="min-height:150px" placeholder="220001CE, Rahul Sharma&#10;220002CE, Priya Patel&#10;220003CE, Amit Kumar"></textarea></div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="doBulkImport('${courseId}')">Import</button>`);
+}
+
+function doBulkImport(courseId) {
+  const lines = document.getElementById('bulk-txt').value.split('\n').map(l=>l.trim()).filter(Boolean);
+  const students = DB.students();
+  let count = 0;
+  lines.forEach(line => {
+    const [roll, ...rest] = line.split(',');
+    const name = rest.join(',').trim();
+    if (name) { students.push({ id:uid(), name, rollNo:roll.trim(), courseId }); count++; }
+  });
+  DB.saveStudents(students);
+  closeModal();
+  toast(`${count} students imported`,'ok');
+  renderCourseDetail(courseId);
+}
+
+// ── Add Lecture ──
+function openAddLecture(courseId) {
+  openModal('Add Lecture', `
+    <div class="form-grid">
+      <div class="form-group"><label>Date *</label><input type="date" id="l-date" value="${todayStr()}"></div>
+      <div class="form-group"><label>Duration (hrs)</label><input type="number" id="l-dur" value="1" min="0.5" step="0.5"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Topic Covered *</label><input id="l-topic" placeholder="e.g. Introduction to Smart Cities"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Notes (optional)</label><textarea id="l-notes" placeholder="Additional notes..."></textarea></div>
+    </div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="saveLecture('${courseId}')">Save & Mark Attendance</button>`);
+}
+
+function saveLecture(courseId) {
+  const topic = document.getElementById('l-topic').value.trim();
+  const date = document.getElementById('l-date').value;
+  if (!topic || !date) { toast('Date and topic required','error'); return; }
+  const lectures = DB.lectures();
+  const lec = { id:uid(), courseId, date, topic, duration:document.getElementById('l-dur').value,
+    notes:document.getElementById('l-notes').value, semesterLabel:`${CFG.SEMESTER} ${CFG.YEAR}` };
+  lectures.push(lec);
+  DB.saveLectures(lectures);
+  closeModal();
+  toast('Lecture added','ok');
+  openAttendance(lec.id, courseId);
+}
+
+function deleteLecture(id, courseId) {
+  if (!confirm('Delete this lecture and its attendance?')) return;
+  DB.saveLectures(DB.lectures().filter(l=>l.id!==id));
+  DB.saveAttendance(DB.attendance().filter(a=>a.lectureId!==id));
+  toast('Lecture deleted');
+  renderCourseDetail(courseId);
+}
+
+// ── Open lecture from dashboard ──
+function openLectureDetail(lectureId) {
+  const lec = DB.lectures().find(l=>l.id===lectureId);
+  if (lec) openAttendance(lectureId, lec.courseId);
+}
+
+// ═══════════════════════════════════════════════════════
+//  PAGE: ATTENDANCE MARKING
+// ═══════════════════════════════════════════════════════
+function openAttendance(lectureId, courseId) {
+  const lec = DB.lectures().find(l=>l.id===lectureId);
+  if (!lec) return;
+  const c = courseById(courseId);
+  const students = DB.students().filter(s=>s.courseId===courseId);
+  let attMap = {};
+  DB.attendance().filter(a=>a.lectureId===lectureId).forEach(a=>{ attMap[a.studentId]=a.status; });
+
+  if (students.length===0) {
+    toast('No students in this course. Add students first.','error');
+    return;
+  }
+
+  const rows = students.map(s => `
+    <div class="att-row" id="arow-${s.id}">
+      <div style="flex:1">
+        <div class="att-name">${s.name}</div>
+        <div class="att-roll">${s.rollNo||'—'}</div>
+      </div>
+      <div class="att-btns">
+        ${['P','A','L'].map(st=>`<button class="att-btn ${st} ${attMap[s.id]===st?'active-'+st:''}" id="abtn-${s.id}-${st}"
+          onclick="markAtt('${lectureId}','${s.id}','${st}','${courseId}')">${st==='P'?'Present':st==='A'?'Absent':'Late'}</button>`).join('')}
+      </div>
+    </div>`).join('');
+
+  openModal(`Attendance — ${c.name}<br><small style="font-weight:400;font-size:13px">${lec.topic} · ${fmtDate(lec.date)}</small>`,`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <span id="att-summary" style="font-size:13px;color:var(--text-muted)"></span>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="markAllAtt('${lectureId}','${courseId}','P')">All Present</button>
+        <button class="btn btn-outline btn-sm" onclick="markAllAtt('${lectureId}','${courseId}','A')">All Absent</button>
+      </div>
+    </div>
+    <div class="att-grid">${rows}</div>`,
+    `<button class="btn btn-outline" onclick="closeModal();navigate('courses',{courseId:'${courseId}'})">Done</button>
+     <button class="btn btn-success" onclick="exportAttendance('${courseId}')">📥 Export Excel</button>`);
+
+  updateAttSummary(lectureId);
+}
+
+function markAtt(lectureId, studentId, status, courseId) {
+  let att = DB.attendance();
+  const idx = att.findIndex(a=>a.lectureId===lectureId && a.studentId===studentId);
+  if (idx>=0) att[idx].status = status;
+  else att.push({ id:uid(), lectureId, studentId, status });
+  DB.saveAttendance(att);
+
+  // Update UI
+  ['P','A','L'].forEach(s => {
+    const btn = document.getElementById(`abtn-${studentId}-${s}`);
+    if (btn) { btn.className = `att-btn ${s}${s===status?' active-'+s:''}`; }
+  });
+  updateAttSummary(lectureId);
+}
+
+function markAllAtt(lectureId, courseId, status) {
+  const students = DB.students().filter(s=>s.courseId===courseId);
+  students.forEach(s => markAtt(lectureId, s.id, status, courseId));
+}
+
+function updateAttSummary(lectureId) {
+  const att = DB.attendance().filter(a=>a.lectureId===lectureId);
+  const p=att.filter(a=>a.status==='P').length, ab=att.filter(a=>a.status==='A').length, l=att.filter(a=>a.status==='L').length;
+  const el = document.getElementById('att-summary');
+  if (el) el.innerHTML = `<span style="color:#16A34A">●P:${p}</span>  <span style="color:#DC2626">●A:${ab}</span>  <span style="color:#CA8A04">●L:${l}</span>`;
+}
+
+// ═══════════════════════════════════════════════════════
+//  PAGE: ATTENDANCE REPORT
+// ═══════════════════════════════════════════════════════
+function renderAttendance() {
+  let html = `<div class="section-title">✅ Attendance Reports</div>`;
+
+  CFG.COURSES.forEach(c => {
+    const students = DB.students().filter(s=>s.courseId===c.id);
+    const lectures = DB.lectures().filter(l=>l.courseId===c.id).sort((a,b)=>a.date>b.date?1:-1);
+    const att = DB.attendance();
+
+    html += `<div class="card" style="margin-bottom:20px">
+      <div class="card-header">
+        <h3><span class="course-chip" style="background:${c.color}20;color:${c.color}">${c.code}</span> ${c.name}</h3>
+        <button class="btn btn-success btn-sm" onclick="exportAttendance('${c.id}')">📥 Export Excel</button>
+      </div>
+      <div class="card-body">`;
+
+    if (students.length===0 || lectures.length===0) {
+      html += `<div class="empty">No data yet for this course.</div>`;
+    } else {
+      html += `<div class="tbl-wrap"><table>
+        <thead><tr>
+          <th>Roll No</th><th>Name</th>
+          ${lectures.map(l=>`<th style="white-space:nowrap">${fmtDate(l.date)}</th>`).join('')}
+          <th>Present</th><th>%</th>
+        </tr></thead>
+        <tbody>
+          ${students.map(s => {
+            const statuses = lectures.map(l => {
+              const a = att.find(a=>a.lectureId===l.id && a.studentId===s.id);
+              return a ? a.status : '—';
+            });
+            const p = statuses.filter(s=>s==='P').length;
+            const marked = statuses.filter(s=>s!=='—').length;
+            const pct = marked>0 ? Math.round(p/marked*100) : 0;
+            const color = pct>=75 ? '#16A34A' : pct>=60 ? '#CA8A04' : '#DC2626';
+            return `<tr>
+              <td style="font-weight:600">${s.rollNo||'—'}</td>
+              <td>${s.name}</td>
+              ${statuses.map(st=>`<td><span class="badge badge-${st==='P'?'p':st==='A'?'a':st==='L'?'l':''}">${st}</span></td>`).join('')}
+              <td>${p}/${marked}</td>
+              <td style="font-weight:700;color:${color}">${pct}%</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table></div>`;
+    }
+    html += `</div></div>`;
+  });
+
+  document.getElementById('content').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+//  PAGE: SCHEDULE
+// ═══════════════════════════════════════════════════════
+function renderSchedule() {
+  const lectures = DB.lectures().sort((a,b)=>a.date>b.date?-1:1);
+
+  let html = `<div class="section-title">📅 Lecture Schedule — ${CFG.SEMESTER} ${CFG.YEAR}</div>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:14px;gap:8px">
+    <button class="btn btn-outline" onclick="navigate('attendance')">View Attendance Report</button>
+    <button class="btn btn-primary" onclick="pickCourseForLecture()">+ Add Lecture</button>
+  </div>`;
+
+  if (lectures.length===0) {
+    html += `<div class="empty card" style="padding:60px">No lectures recorded yet. Add a lecture to get started.</div>`;
+  } else {
+    // Group by month
+    const groups = {};
+    lectures.forEach(l => {
+      const m = l.date ? l.date.slice(0,7) : 'Unknown';
+      if (!groups[m]) groups[m] = [];
+      groups[m].push(l);
+    });
+    Object.entries(groups).forEach(([month, lecs]) => {
+      const [y,m] = month.split('-');
+      const monthName = new Date(y,m-1).toLocaleString('en-IN',{month:'long',year:'numeric'});
+      html += `<div style="margin-bottom:8px;font-weight:700;color:var(--text-muted);font-size:13px;text-transform:uppercase">${monthName}</div>
+      <div class="card" style="margin-bottom:20px"><div class="tbl-wrap"><table>
+        <thead><tr><th>Date</th><th>Course</th><th>Topic</th><th>Duration</th><th>Actions</th></tr></thead>
+        <tbody>
+          ${lecs.map(l => {
+            const c = courseById(l.courseId);
+            return `<tr>
+              <td style="white-space:nowrap">${fmtDate(l.date)}</td>
+              <td><span class="course-chip" style="background:${c.color}20;color:${c.color}">${c.code||c.name}</span></td>
+              <td>${l.topic||'—'}</td>
+              <td>${l.duration||'—'} hr</td>
+              <td style="display:flex;gap:6px">
+                <button class="btn btn-outline btn-sm" onclick="openAttendance('${l.id}','${l.courseId}')">Attendance</button>
+                <button class="btn btn-danger btn-sm btn-icon" onclick="deleteLecture('${l.id}','${l.courseId}');navigate('schedule')">🗑</button>
+              </td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table></div></div>`;
+    });
+  }
+
+  document.getElementById('content').innerHTML = html;
+}
+
+function pickCourseForLecture() {
+  openModal('Select Course', `
+    <div style="display:flex;flex-direction:column;gap:10px">
+      ${CFG.COURSES.map(c=>`
+        <div class="today-class" onclick="closeModal();openAddLecture('${c.id}')" style="border:1px solid ${c.color}40">
+          <div class="today-dot" style="background:${c.color}"></div>
+          <div><strong>${c.name}</strong><div style="font-size:12px;color:var(--text-muted)">${c.code}</div></div>
+        </div>`).join('')}
+    </div>`);
+}
+
+// ═══════════════════════════════════════════════════════
+//  EXPORT ATTENDANCE TO EXCEL
+// ═══════════════════════════════════════════════════════
+function exportAttendance(courseId) {
+  const c = courseById(courseId);
+  const students = DB.students().filter(s=>s.courseId===courseId).sort((a,b)=>a.rollNo>b.rollNo?1:-1);
+  const lectures = DB.lectures().filter(l=>l.courseId===courseId).sort((a,b)=>a.date>b.date?1:-1);
+  const att = DB.attendance();
+
+  if (students.length===0 || lectures.length===0) {
+    toast('No data to export','error'); return;
+  }
+
+  const wb = XLSX.utils.book_new();
+
+  // Header rows
+  const headerRow1 = ['Roll No', 'Student Name', ...lectures.map(l=>fmtDate(l.date)), 'Present', 'Absent', 'Late', '%'];
+  const headerRow2 = ['', '', ...lectures.map(l=>l.topic||''), '', '', '', ''];
+
+  const rows = [headerRow1, headerRow2];
+  students.forEach(s => {
+    const statuses = lectures.map(l => {
+      const a = att.find(a=>a.lectureId===l.id && a.studentId===s.id);
+      return a ? a.status : '—';
+    });
+    const p=statuses.filter(x=>x==='P').length;
+    const ab=statuses.filter(x=>x==='A').length;
+    const la=statuses.filter(x=>x==='L').length;
+    const marked=statuses.filter(x=>x!=='—').length;
+    const pct = marked>0 ? Math.round(p/marked*100) : 0;
+    rows.push([s.rollNo||'', s.name, ...statuses, p, ab, la, pct+'%']);
+  });
+
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+
+  // Column widths
+  ws['!cols'] = [{wch:14},{wch:25},...lectures.map(()=>({wch:10})),{wch:8},{wch:8},{wch:8},{wch:8}];
+
+  XLSX.utils.book_append_sheet(wb, ws, c.name.slice(0,31));
+
+  // Summary sheet
+  const sumRows = [['Course',c.name],['Code',c.code],['Semester',`${CFG.SEMESTER} ${CFG.YEAR}`],
+    ['Total Students',students.length],['Total Lectures',lectures.length],['Exported On',new Date().toLocaleString('en-IN')]];
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sumRows), 'Summary');
+
+  XLSX.writeFile(wb, `Attendance_${c.name.replace(/\s+/g,'_')}_${CFG.SEMESTER.replace(' ','')}_${CFG.YEAR}.xlsx`);
+  toast('Attendance exported!','ok');
+}
+
+// ═══════════════════════════════════════════════════════
+//  GOOGLE SHEETS SYNC
+// ═══════════════════════════════════════════════════════
+async function syncToSheets() {
+  if (!CFG.SHEETS_URL) {
+    openModal('Google Sheets Setup', `
+      <p style="margin-bottom:14px;font-size:14px">Paste your Google Apps Script Web App URL to enable cloud sync.</p>
+      <div class="form-group"><label>Apps Script Web App URL</label>
+        <input id="sheets-url" placeholder="https://script.google.com/macros/s/..." value="${CFG.SHEETS_URL}"></div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:10px">See <strong>gas-backend.gs</strong> file for setup instructions.</p>`,
+      `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+       <button class="btn btn-primary" onclick="saveSheetsUrl()">Save & Sync</button>`);
+    return;
+  }
+
+  const btn = document.getElementById('sync-btn');
+  btn.textContent = '⏳ Syncing...';
+  btn.disabled = true;
+
+  try {
+    const payload = {
+      action: 'saveAll',
+      students: DB.students(),
+      lectures: DB.lectures(),
+      attendance: DB.attendance(),
+      tasks: DB.tasks(),
+      meta: { semester: CFG.SEMESTER, year: CFG.YEAR, syncedAt: new Date().toISOString() }
+    };
+    const res = await fetch(CFG.SHEETS_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    const json = await res.json();
+    if (json.success) {
+      const now = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+      document.getElementById('sync-status').textContent = `Synced ${now}`;
+      toast('Synced to Google Sheets!','ok');
+    } else {
+      throw new Error(json.error||'Unknown error');
+    }
+  } catch(e) {
+    toast('Sync failed: '+e.message,'error');
+  } finally {
+    btn.textContent = '⬆ Sync';
+    btn.disabled = false;
+  }
+}
+
+async function loadFromSheets() {
+  if (!CFG.SHEETS_URL) return;
+  try {
+    const res = await fetch(CFG.SHEETS_URL + '?action=getAll');
+    const json = await res.json();
+    if (json.students) { DB.saveStudents(json.students); DB.saveLectures(json.lectures); DB.saveAttendance(json.attendance); DB.saveTasks(json.tasks||[]); }
+    toast('Loaded from Google Sheets','ok');
+    navigate(currentPage);
+  } catch(e) { toast('Load failed: '+e.message,'error'); }
+}
+
+function saveSheetsUrl() {
+  const url = document.getElementById('sheets-url').value.trim();
+  if (!url) { toast('Enter a URL','error'); return; }
+  CFG.SHEETS_URL = url;
+  localStorage.setItem('acad_sheets_url', url);
+  closeModal();
+  syncToSheets();
+}
+
+// ═══════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  // Check if already logged in (same session)
+  if (sessionStorage.getItem('acad_auth')==='1') {
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    navigate('dashboard');
+  }
+  // Set default password hash if not set
+  // Default password is: IITIndore@2025
+  // To change, use: sha256('your-new-password') in browser console and update CFG.PASSWORD_HASH
+});
+</script>
+</body>
+</html>

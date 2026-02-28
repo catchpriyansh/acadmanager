@@ -167,6 +167,10 @@ tr:hover td{background:#F8FAFC}
 /* ── ALERT BANNER ── */
 .alert-banner{background:#FEF3C7;border:1px solid #FDE68A;border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px}
 .alert-banner.danger{background:#FEE2E2;border-color:#FECACA}
+.alert-banner.info{background:#DBEAFE;border-color:#BFDBFE}
+
+/* ── TA BANNER ── */
+.ta-banner{background:linear-gradient(90deg,#7C3AED,#5B21B6);color:#fff;padding:8px 18px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px;justify-content:space-between}
 
 /* ── STUDENT CATEGORY CHIPS ── */
 .cat-phd{background:#EDE9FE;color:#5B21B6}
@@ -183,6 +187,56 @@ tr:hover td{background:#F8FAFC}
 .badge-active{background:#DCFCE7;color:#166534}
 .badge-completed{background:#E0E7FF;color:#3730A3}
 .badge-on-hold{background:#FEE2E2;color:#991B1B}
+
+/* ── GRADE BADGES ── */
+.grade-O{background:#D1FAE5;color:#065F46;font-weight:700}
+.grade-Ap{background:#A7F3D0;color:#065F46;font-weight:700}
+.grade-A{background:#BBF7D0;color:#14532D;font-weight:700}
+.grade-Bp{background:#DBEAFE;color:#1D4ED8;font-weight:700}
+.grade-B{background:#BFDBFE;color:#1D4ED8;font-weight:700}
+.grade-Cp{background:#FEF3C7;color:#92400E;font-weight:700}
+.grade-C{background:#FDE68A;color:#78350F;font-weight:700}
+.grade-D{background:#FED7AA;color:#9A3412;font-weight:700}
+.grade-F{background:#FEE2E2;color:#991B1B;font-weight:700}
+
+/* ── MARKS TABLE ── */
+.marks-table{min-width:700px}
+.marks-table th{position:sticky;top:0;background:#F8FAFC;z-index:2;white-space:nowrap;font-size:11px}
+.marks-table th.comp-header{text-align:center}
+.marks-input{width:60px;border:1.5px solid var(--border);border-radius:6px;padding:4px 6px;font-size:13px;text-align:center;background:#fff;transition:.15s}
+.marks-input:focus{border-color:var(--primary-light);outline:none;background:#EFF6FF}
+.marks-input.over{border-color:#DC2626;background:#FEE2E2}
+.marks-input.filled{border-color:#10B981;background:#F0FDF4}
+.marks-total-cell{background:#F8FAFC;font-weight:700;text-align:center}
+
+/* ── TIMETABLE ── */
+.tt-grid{display:grid;grid-template-columns:80px repeat(6,1fr);gap:4px;font-size:12px}
+.tt-day-header{background:var(--primary);color:#fff;padding:6px;border-radius:6px;text-align:center;font-weight:700;font-size:11px}
+.tt-time{background:#F8FAFC;padding:6px 4px;border-radius:6px;text-align:center;color:var(--text-muted);font-weight:600;font-size:11px;border:1px solid var(--border)}
+.tt-slot{min-height:50px;border-radius:8px;padding:6px 8px;border:1.5px dashed var(--border);background:#FAFAFA;cursor:pointer;transition:.15s;font-size:11px;display:flex;align-items:center;justify-content:center;color:var(--text-muted)}
+.tt-slot:hover{border-color:var(--primary-light);background:#EFF6FF}
+.tt-slot.filled{border-style:solid;background:#EFF6FF;color:var(--primary);cursor:default;flex-direction:column;align-items:flex-start}
+.tt-slot.filled strong{font-size:12px;font-weight:700}
+
+/* ── COMPONENT WEIGHTS ── */
+.weight-bar{height:6px;border-radius:3px;background:var(--primary-light);margin-top:3px}
+.comp-card{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;transition:.15s}
+.comp-card:hover{border-color:var(--primary-light);background:#EFF6FF}
+
+/* ── PUBLICATION CARD ── */
+.pub-card{border-left:4px solid var(--primary-light);padding:10px 14px;background:var(--card);border-radius:0 10px 10px 0;margin-bottom:10px;border:1px solid var(--border);border-left-width:4px}
+
+/* ── SETTINGS SECTIONS ── */
+.settings-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.settings-nav-item{padding:8px 16px;border-radius:8px;border:1.5px solid var(--border);background:#fff;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-muted);transition:.15s}
+.settings-nav-item:hover,.settings-nav-item.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* ── COURSE DETAIL HEADER ── */
+.course-detail-header{border-radius:14px;padding:24px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden}
+.course-detail-header::after{content:'';position:absolute;right:-20px;top:-20px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.08)}
+
+/* ── SAFE DELETE INPUT ── */
+.danger-input{border-color:var(--danger)!important;background:#FEF2F2}
 
 /* ── PRINT (Quotation) ── */
 @media print{
@@ -203,6 +257,7 @@ tr:hover td{background:#F8FAFC}
   .content{padding:16px}
   .att-row{flex-wrap:wrap}
   .form-grid{grid-template-columns:1fr}
+  .tt-grid{grid-template-columns:60px repeat(3,1fr)}
 }
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
 .sidebar-overlay.open{display:block}
@@ -216,9 +271,25 @@ tr:hover td{background:#F8FAFC}
     <div class="login-logo">🎓</div>
     <h1>AcadManager</h1>
     <p>Dr. Priyansh Singh · IIT Indore<br>Dept. of Civil Engineering</p>
-    <input type="password" id="pwd-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">Sign In</button>
-    <div id="login-error">Incorrect password. Please try again.</div>
+    <!-- Professor login -->
+    <div id="prof-login-section">
+      <input type="password" id="pwd-input" placeholder="Professor password" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="login-btn" onclick="doLogin()">Sign In as Professor</button>
+      <div id="login-error" style="color:#EF4444;font-size:13px;margin-top:10px;display:none">Incorrect password.</div>
+      <div style="margin-top:14px;text-align:center">
+        <a href="#" style="font-size:12px;color:#64748B;text-decoration:none" onclick="toggleTALogin(event)">Login as Teaching Assistant →</a>
+      </div>
+    </div>
+    <!-- TA login -->
+    <div id="ta-login-section" style="display:none">
+      <input type="text" id="ta-lid-input" placeholder="TA Login ID" style="margin-bottom:10px;width:100%;padding:12px 14px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:15px;outline:none">
+      <input type="password" id="ta-pwd-input" placeholder="TA Password" onkeydown="if(event.key==='Enter')doTALogin()">
+      <button class="login-btn" style="background:#5B21B6" onclick="doTALogin()">Sign In as TA</button>
+      <div id="ta-login-error" style="color:#EF4444;font-size:13px;margin-top:10px;display:none">Invalid TA credentials.</div>
+      <div style="margin-top:14px;text-align:center">
+        <a href="#" style="font-size:12px;color:#64748B;text-decoration:none" onclick="toggleTALogin(event)">← Professor Login</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -296,11 +367,16 @@ tr:hover td{background:#F8FAFC}
 
   <!-- MAIN -->
   <div class="main">
+    <!-- TA banner (shown when TA is logged in) -->
+    <div class="ta-banner" id="ta-banner" style="display:none">
+      <span>🔐 Teaching Assistant Mode — <span id="ta-name-display"></span></span>
+      <button onclick="doTALogout()" style="background:rgba(255,255,255,.2);border:none;color:#fff;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">Sign Out</button>
+    </div>
     <div class="topbar">
       <button class="hamburger" onclick="openSidebar()">☰</button>
       <h1 id="page-title">Dashboard</h1>
       <span class="sync-status" id="sync-status"></span>
-      <button class="sync-btn" onclick="syncToSheets()" id="sync-btn">⬆ Sync</button>
+      <button class="sync-btn" onclick="syncToSheets()" id="sync-btn" style="display:none">⬆ Sync</button>
     </div>
     <div class="content" id="content"></div>
   </div>
@@ -366,6 +442,42 @@ async function doLogin() {
 
 function doLogout() {
   sessionStorage.removeItem('acad_auth');
+  sessionStorage.removeItem('ta_id');
+  location.reload();
+}
+
+function toggleTALogin(e) {
+  e.preventDefault();
+  const pf = document.getElementById('prof-login-section');
+  const tf = document.getElementById('ta-login-section');
+  if (pf.style.display==='none') { pf.style.display='block'; tf.style.display='none'; }
+  else { pf.style.display='none'; tf.style.display='block'; }
+}
+
+async function doTALogin() {
+  const lid = document.getElementById('ta-lid-input').value.trim();
+  const pwd = document.getElementById('ta-pwd-input').value;
+  if (!lid || !pwd) { document.getElementById('ta-login-error').style.display='block'; return; }
+  const hash = await sha256(pwd);
+  const ta = DB.tas().find(t => t.loginId===lid && t.passwordHash===hash);
+  if (ta) {
+    sessionStorage.setItem('ta_id', ta.id);
+    sessionStorage.setItem('acad_auth','1');
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    // Show TA banner, hide sync
+    document.getElementById('ta-banner').style.display='flex';
+    document.getElementById('ta-name-display').textContent = ta.name;
+    document.getElementById('sync-btn').style.display='none';
+    navigate('ta-dashboard');
+  } else {
+    document.getElementById('ta-login-error').style.display='block';
+  }
+}
+
+function doTALogout() {
+  sessionStorage.removeItem('ta_id');
+  sessionStorage.removeItem('acad_auth');
   location.reload();
 }
 
@@ -388,9 +500,21 @@ const DEFAULT_COURSES = [
   { id: 're',  name: 'Railway Engineering',      code: 'CE 322', color: '#8B5CF6', bg: '#F5F3FF' },
 ];
 
+// ── Grade scheme defaults (IIT grading system) ──
+const DEFAULT_GRADE_SCHEME = [
+  {grade:'O',  minPct:90},
+  {grade:'A+', minPct:80},
+  {grade:'A',  minPct:70},
+  {grade:'B+', minPct:60},
+  {grade:'B',  minPct:55},
+  {grade:'C',  minPct:50},
+  {grade:'D',  minPct:40},
+  {grade:'F',  minPct:0},
+];
+
 // ── Data accessors ──
 const DB = {
-  // Module 1
+  // Module 1 — Courses & Teaching
   courses: () => { const c = load('courses'); return c.length ? c : DEFAULT_COURSES; },
   saveCourses: v => save('courses', v),
   students: () => load('students'),
@@ -401,6 +525,18 @@ const DB = {
   saveAttendance: v => save('attendance',v),
   tasks: () => load('tasks'),
   saveTasks: v => save('tasks',v),
+  // Course components (marks components per course)
+  courseComponents: () => load('courseComponents'),
+  saveCourseComponents: v => save('courseComponents',v),
+  // Student marks per component
+  studentMarks: () => load('studentMarks'),
+  saveStudentMarks: v => save('studentMarks',v),
+  // Timetable slots per course
+  courseTimetable: () => load('courseTimetable'),
+  saveCourseTimetable: v => save('courseTimetable',v),
+  // Teaching Assistants
+  tas: () => load('tas'),
+  saveTAs: v => save('tas',v),
   // Module 2 — Research Students
   resStudents: () => load('resStudents'),
   saveResStudents: v => save('resStudents',v),
@@ -430,13 +566,25 @@ const DB = {
 // ═══════════════════════════════════════════════════════
 //  ROUTING
 // ═══════════════════════════════════════════════════════
+// ── TA session helpers ──
+const TA = {
+  isTA: () => !!sessionStorage.getItem('ta_id'),
+  id: () => sessionStorage.getItem('ta_id'),
+  obj: () => DB.tas().find(t=>t.id===sessionStorage.getItem('ta_id')),
+  canMark: (courseId) => {
+    const ta = TA.obj(); if (!ta) return false;
+    return (ta.courseIds||[]).includes(courseId);
+  },
+};
+
 let currentPage = 'dashboard';
 const PAGE_TITLES = {
-  dashboard:'Dashboard', courses:'Courses', attendance:'Attendance', schedule:'Lecture Schedule',
-  settings:'Settings',
+  dashboard:'Dashboard', courses:'Courses', 'course-detail':'Course Detail',
+  attendance:'Attendance', schedule:'Lecture Schedule', settings:'Settings',
   'res-students':'Research Students', 'res-student-detail':'Student Detail',
   projects:'Projects', budget:'Budget',
-  tasks:'Tasks', meetings:'Meetings', 'short-courses':'Short Courses'
+  tasks:'Tasks', meetings:'Meetings', 'short-courses':'Short Courses',
+  'ta-dashboard':'TA Dashboard'
 };
 
 function navigate(page, params={}) {
@@ -448,10 +596,12 @@ function navigate(page, params={}) {
   content.innerHTML = '';
   const renders = {
     dashboard: renderDashboard, courses: renderCourses,
+    'course-detail': renderCourseDetail,
     attendance: renderAttendance, schedule: renderSchedule, settings: renderSettings,
     'res-students': renderResStudents, 'res-student-detail': renderResStudentDetail,
     projects: renderProjects, budget: renderBudget,
-    tasks: renderTasks, meetings: renderMeetings, 'short-courses': renderShortCourses
+    tasks: renderTasks, meetings: renderMeetings, 'short-courses': renderShortCourses,
+    'ta-dashboard': renderTADashboard
   };
   if (renders[page]) renders[page](params);
 }
@@ -664,124 +814,556 @@ function saveTask() {
 function renderCourses(params={}) {
   const students = DB.students();
   const lectures = DB.lectures();
-
-  // If a specific course is selected, show its detail
-  if (params.courseId) {
-    renderCourseDetail(params.courseId);
-    return;
-  }
-
-  let html = `<div class="section-title">📚 All Courses — ${CFG.SEMESTER} ${CFG.YEAR}</div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
+  const html = `
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:8px">
+    <div class="section-title" style="margin:0">📚 All Courses — ${CFG.SEMESTER} ${CFG.YEAR}</div>
+    <button class="btn btn-primary" onclick="navigate('settings')">+ Manage Courses</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px">
     ${DB.courses().map(c => {
       const studs = students.filter(s=>s.courseId===c.id);
       const lecs = lectures.filter(l=>l.courseId===c.id);
-      return `<div class="card" style="cursor:pointer;border-top:4px solid ${c.color}" onclick="navigate('courses',{courseId:'${c.id}'})">
+      const comps = DB.courseComponents().filter(cp=>cp.courseId===c.id);
+      const totalAtt = lecs.reduce((sum,l)=>{
+        const p = DB.attendance().filter(a=>a.lectureId===l.id && a.status==='P').length;
+        return sum + (studs.length>0 ? Math.round(p/studs.length*100) : 0);
+      },0);
+      const avgAtt = lecs.length>0 ? Math.round(totalAtt/lecs.length) : 0;
+      return `<div class="card" style="cursor:pointer;border-top:4px solid ${c.color}" onclick="navigate('course-detail',{courseId:'${c.id}'})">
         <div class="card-body">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
             <span class="course-chip" style="background:${c.color}20;color:${c.color}">${c.code}</span>
+            ${comps.length>0?`<span class="badge badge-pending">${comps.length} components</span>`:''}
           </div>
           <h3 style="font-size:18px;color:var(--primary);margin-bottom:12px">${c.name}</h3>
-          <div style="display:flex;gap:14px;font-size:14px;color:var(--text-muted)">
-            <span>👥 ${studs.length} students</span>
-            <span>📖 ${lecs.length} lectures</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:13px;color:var(--text-muted);margin-bottom:10px">
+            <div><div style="font-size:18px;font-weight:700;color:var(--primary)">${studs.length}</div>Students</div>
+            <div><div style="font-size:18px;font-weight:700;color:var(--primary)">${lecs.length}</div>Lectures</div>
+            <div><div style="font-size:18px;font-weight:700;color:${avgAtt<75?'#DC2626':'var(--success)'}">${lecs.length>0?avgAtt+'%':'—'}</div>Avg Att.</div>
           </div>
-          <div style="margin-top:12px;font-size:13px;color:var(--primary-light)">Click to manage →</div>
+          ${lecs.length>0?`<div class="prog-bar"><div class="prog-fill" style="width:${avgAtt}%;background:${avgAtt<75?'#DC2626':'var(--success)'}"></div></div>`:''}
+          <div style="margin-top:10px;font-size:12px;color:var(--primary-light);font-weight:600">Open Full Details →</div>
         </div>
       </div>`;
     }).join('')}
+    ${DB.courses().length===0?'<div class="empty card" style="padding:50px">No courses yet. Go to Settings to add courses.</div>':''}
   </div>`;
   document.getElementById('content').innerHTML = html;
 }
 
-function renderCourseDetail(courseId) {
+// ═══════════════════════════════════════════════════════
+//  COMPREHENSIVE COURSE DETAIL PAGE
+// ═══════════════════════════════════════════════════════
+function renderCourseDetail(params={}) {
+  const courseId = params.courseId;
   const c = courseById(courseId);
+  if (!c || c.name==='Unknown') { navigate('courses'); return; }
   const students = DB.students().filter(s=>s.courseId===courseId);
   const lectures = DB.lectures().filter(l=>l.courseId===courseId);
+  const components = DB.courseComponents().filter(cp=>cp.courseId===courseId).sort((a,b)=>a.order-b.order);
+  const timetable = DB.courseTimetable().filter(t=>t.courseId===courseId);
+  const allAtt = DB.attendance();
+  const activeTab = params.tab || 'overview';
 
+  const tabs = [
+    {id:'overview',  icon:'📊', label:'Overview'},
+    {id:'timetable', icon:'🗓', label:'Timetable'},
+    {id:'components',icon:'📝', label:'Components & Marks'},
+    {id:'lectures',  icon:'📖', label:'Lectures & Attendance'},
+    {id:'settings',  icon:'⚙️',  label:'Course Settings'},
+  ];
+
+  // Color coded header
   let html = `
   <div style="margin-bottom:16px">
-    <button class="btn btn-outline btn-sm" onclick="navigate('courses')">← Back</button>
+    <button class="btn btn-outline btn-sm" onclick="navigate('courses')">← All Courses</button>
   </div>
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-    <div style="width:48px;height:48px;border-radius:12px;background:${c.color};display:flex;align-items:center;justify-content:center;font-size:22px">📚</div>
-    <div>
-      <h2 style="font-size:20px;color:var(--primary)">${c.name}</h2>
-      <span class="course-chip" style="background:${c.color}20;color:${c.color}">${c.code}</span>
-    </div>
-  </div>
-
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab('students')">👥 Students (${students.length})</div>
-    <div class="tab" onclick="switchTab('lectures')">📖 Lectures (${lectures.length})</div>
-  </div>
-
-  <div id="tab-students" class="tab-pane active">
-    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;gap:8px">
-      <button class="btn btn-outline btn-sm" onclick="importStudents('${courseId}')">📋 Bulk Import</button>
-      <button class="btn btn-primary btn-sm" onclick="openAddStudent('${courseId}')">+ Add Student</button>
-    </div>
-    ${students.length===0 ? '<div class="empty">No students yet. Add students to track attendance.</div>' : `
-    <div class="card">
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>#</th><th>Roll No</th><th>Name</th><th>Actions</th></tr></thead>
-          <tbody>
-            ${students.map((s,i) => `<tr>
-              <td>${i+1}</td>
-              <td style="font-weight:600">${s.rollNo||'—'}</td>
-              <td>${s.name}</td>
-              <td><button class="btn btn-danger btn-sm btn-icon" onclick="deleteStudent('${s.id}','${courseId}')">🗑</button></td>
-            </tr>`).join('')}
-          </tbody>
-        </table>
+  <div class="course-detail-header" style="background:linear-gradient(135deg,${c.color},${c.color}cc);margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px">📚</div>
+      <div style="flex:1">
+        <h2 style="font-size:22px;font-weight:800;margin-bottom:4px">${c.name}</h2>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <span style="background:rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:13px;font-weight:700">${c.code}</span>
+          <span style="font-size:13px;opacity:.85">${students.length} students · ${lectures.length} lectures · ${components.length} mark components</span>
+        </div>
       </div>
-    </div>`}
+    </div>
   </div>
 
-  <div id="tab-lectures" class="tab-pane">
-    <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
-      <button class="btn btn-primary btn-sm" onclick="openAddLecture('${courseId}')">+ Add Lecture</button>
-    </div>
-    ${lectures.length===0 ? '<div class="empty">No lectures recorded yet.</div>' : `
-    <div class="card">
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>#</th><th>Date</th><th>Topic</th><th>Duration</th><th>Attendance</th><th>Actions</th></tr></thead>
-          <tbody>
-            ${lectures.sort((a,b)=>a.date>b.date?-1:1).map((l,i) => {
-              const att = DB.attendance().filter(a=>a.lectureId===l.id);
-              const p = att.filter(a=>a.status==='P').length;
-              const total = students.length;
-              return `<tr>
-                <td>${lectures.length-i}</td>
-                <td>${fmtDate(l.date)}</td>
-                <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.topic||'—'}</td>
-                <td>${l.duration||'—'} hr</td>
-                <td>${total>0?`${p}/${total}`:'—'}</td>
-                <td style="display:flex;gap:6px">
-                  <button class="btn btn-outline btn-sm" onclick="openAttendance('${l.id}','${courseId}')">Mark</button>
-                  <button class="btn btn-danger btn-sm btn-icon" onclick="deleteLecture('${l.id}','${courseId}')">🗑</button>
-                </td>
-              </tr>`;
-            }).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>`}
-  </div>`;
+  <div class="tabs" style="margin-bottom:0">
+    ${tabs.map(t=>`<div class="tab ${activeTab===t.id?'active':''}" data-tabfor="cd" onclick="navigate('course-detail',{courseId:'${courseId}',tab:'${t.id}'})">${t.icon} ${t.label}</div>`).join('')}
+  </div>
+  <div style="background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;padding:20px;margin-bottom:20px">`;
 
+  // ── OVERVIEW TAB ──
+  if (activeTab==='overview') {
+    const totalPossible = lectures.length * students.length;
+    const totalPresent = allAtt.filter(a=>lectures.some(l=>l.id===a.lectureId) && a.status==='P').length;
+    const attPct = totalPossible > 0 ? Math.round(totalPresent/totalPossible*100) : 0;
+    // Low-attendance students
+    const lowAtt = students.filter(s => {
+      const p = allAtt.filter(a=>a.studentId===s.id && lectures.some(l=>l.id===a.lectureId) && a.status==='P').length;
+      return lectures.length>0 && Math.round(p/lectures.length*100) < 75;
+    });
+
+    html += `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:20px">
+      <div class="stat-card" style="background:#EFF6FF;border:none"><div class="stat-icon" style="background:#BFDBFE">👥</div><div><div class="stat-val">${students.length}</div><div class="stat-lbl">Students</div></div></div>
+      <div class="stat-card" style="background:#ECFDF5;border:none"><div class="stat-icon" style="background:#A7F3D0">📖</div><div><div class="stat-val">${lectures.length}</div><div class="stat-lbl">Lectures</div></div></div>
+      <div class="stat-card" style="background:${attPct<75?'#FEF2F2':'#ECFDF5'};border:none"><div class="stat-icon" style="background:${attPct<75?'#FECACA':'#A7F3D0'}">📊</div><div><div class="stat-val">${attPct}%</div><div class="stat-lbl">Class Avg Att.</div></div></div>
+      <div class="stat-card" style="background:#F5F3FF;border:none"><div class="stat-icon" style="background:#DDD6FE">⚠️</div><div><div class="stat-val" style="color:#7C3AED">${lowAtt.length}</div><div class="stat-lbl">Low Att. (&lt;75%)</div></div></div>
+    </div>
+    ${lowAtt.length>0?`<div class="alert-banner danger" style="margin-bottom:16px"><span>⚠️</span>
+      <div><strong>${lowAtt.length} student(s) below 75% attendance:</strong>
+        <div style="font-size:13px;margin-top:4px">${lowAtt.map(s=>{
+          const p=allAtt.filter(a=>a.studentId===s.id&&lectures.some(l=>l.id===a.lectureId)&&a.status==='P').length;
+          return `${s.name} (${s.rollNo||'—'}) — ${lectures.length>0?Math.round(p/lectures.length*100):0}%`;
+        }).join(' · ')}</div>
+      </div>
+    </div>`:''}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="dash-cols">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">RECENT LECTURES</div>
+        ${lectures.length===0?'<div style="color:var(--text-muted);font-size:13px">No lectures yet.</div>':
+          [...lectures].sort((a,b)=>b.date>a.date?1:-1).slice(0,5).map(l=>{
+            const p=allAtt.filter(a=>a.lectureId===l.id&&a.status==='P').length;
+            return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">
+              <div style="width:36px;height:36px;border-radius:8px;background:${c.color}20;display:flex;align-items:center;justify-content:center;font-size:14px">📖</div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600">${l.topic||'—'}</div>
+                <div style="font-size:11px;color:var(--text-muted)">${fmtDate(l.date)} · ${students.length>0?Math.round(p/students.length*100):0}% present</div>
+              </div>
+              <button class="btn btn-outline btn-sm" onclick="openAttendance('${l.id}','${courseId}')">Att.</button>
+            </div>`;
+          }).join('')}
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px">MARK COMPONENTS</div>
+        ${components.length===0?`<div style="color:var(--text-muted);font-size:13px">No components. <a href="#" onclick="navigate('course-detail',{courseId:'${courseId}',tab:'components'});return false">Add components →</a></div>`:
+          components.map(cp=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600">${cp.name}</div>
+              <div style="font-size:11px;color:var(--text-muted)">Max: ${cp.maxMarks} · Weight: ${cp.weight}%</div>
+            </div>
+            <div class="weight-bar" style="width:${cp.weight}px;max-width:80px;background:${c.color}"></div>
+          </div>`).join('')}
+        <div style="margin-top:10px">
+          <a href="#" onclick="navigate('course-detail',{courseId:'${courseId}',tab:'components'});return false" style="font-size:13px;color:var(--primary-light);font-weight:600">
+            ${components.length>0?'Manage components →':'Add mark components →'}
+          </a>
+        </div>
+      </div>
+    </div>
+    <style>.dash-cols{grid-template-columns:1fr 1fr}@media(max-width:640px){.dash-cols{grid-template-columns:1fr!important}}</style>`;
+  }
+
+  // ── TIMETABLE TAB ──
+  else if (activeTab==='timetable') {
+    const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat'];
+    const slots = timetable;
+    html += `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <div style="font-weight:700;color:var(--primary)">Weekly Class Timetable</div>
+      <button class="btn btn-primary btn-sm" onclick="openAddTTSlot('${courseId}')">+ Add Slot</button>
+    </div>
+    ${slots.length===0?`<div class="empty">No timetable entries yet. Click "Add Slot" to set up your weekly schedule.</div>`:`
+    <div style="overflow-x:auto;margin-bottom:16px">
+      <table style="width:100%;min-width:600px">
+        <thead><tr>
+          <th>Day</th><th>Start</th><th>End</th><th>Room / Location</th><th>Type</th><th>Actions</th>
+        </tr></thead>
+        <tbody>
+          ${slots.sort((a,b)=>{const o=['Mon','Tue','Wed','Thu','Fri','Sat'];return o.indexOf(a.day)-o.indexOf(b.day);}).map(s=>`<tr>
+            <td style="font-weight:700">${s.day}</td>
+            <td>${s.startTime}</td><td>${s.endTime}</td>
+            <td>${s.room||'—'}</td>
+            <td><span class="badge badge-${s.type==='Lecture'?'active':s.type==='Lab'?'submitted':'pending'}">${s.type||'Lecture'}</span></td>
+            <td><button class="btn btn-danger btn-sm btn-icon" onclick="deleteTTSlot('${s.id}','${courseId}')">🗑</button></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`}`;
+  }
+
+  // ── COMPONENTS & MARKS TAB ──
+  else if (activeTab==='components') {
+    html += renderComponentsAndMarks(courseId, c, students, components);
+  }
+
+  // ── LECTURES & ATTENDANCE TAB ──
+  else if (activeTab==='lectures') {
+    html += `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <div>
+        <button class="btn btn-outline btn-sm" onclick="openImportStudents('${courseId}')">📥 Import Students (Excel)</button>
+        <button class="btn btn-outline btn-sm" onclick="importStudents('${courseId}')">📋 Paste-Import Students</button>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="openAddStudent('${courseId}')">+ Student</button>
+        <button class="btn btn-primary btn-sm" onclick="openAddLecture('${courseId}')">+ Lecture</button>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="dash-cols">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">STUDENTS (${students.length})</div>
+        ${students.length===0?'<div class="empty">No students enrolled.</div>':`
+        <div class="card" style="margin-bottom:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Roll No</th><th>Name</th><th>Att.%</th><th></th></tr></thead>
+              <tbody>
+                ${students.map((s,i)=>{
+                  const p=allAtt.filter(a=>a.studentId===s.id&&lectures.some(l=>l.id===a.lectureId)&&a.status==='P').length;
+                  const pct=lectures.length>0?Math.round(p/lectures.length*100):null;
+                  return `<tr>
+                    <td>${i+1}</td>
+                    <td style="font-weight:600;font-size:12px">${s.rollNo||'—'}</td>
+                    <td>${s.name}</td>
+                    <td style="font-weight:700;color:${pct!==null&&pct<75?'#DC2626':'var(--success)'}">${pct!==null?pct+'%':'—'}</td>
+                    <td><button class="btn btn-danger btn-sm btn-icon" onclick="deleteStudent('${s.id}','${courseId}')">🗑</button></td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>`}
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">LECTURES (${lectures.length})</div>
+        ${lectures.length===0?'<div class="empty">No lectures yet.</div>':`
+        <div class="card" style="margin-bottom:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Date</th><th>Topic</th><th>Present</th><th></th></tr></thead>
+              <tbody>
+                ${[...lectures].sort((a,b)=>b.date>a.date?1:-1).map(l=>{
+                  const p=allAtt.filter(a=>a.lectureId===l.id&&a.status==='P').length;
+                  return `<tr>
+                    <td style="white-space:nowrap;font-size:12px">${fmtDate(l.date)}</td>
+                    <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${l.topic||'—'}</td>
+                    <td style="font-size:12px">${students.length>0?p+'/'+students.length:'—'}</td>
+                    <td>
+                      <button class="btn btn-outline btn-sm" onclick="openAttendance('${l.id}','${courseId}')">Att</button>
+                      <button class="btn btn-danger btn-sm btn-icon" onclick="deleteLecture('${l.id}','${courseId}')">🗑</button>
+                    </td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>`}
+      </div>
+    </div>
+    <style>.dash-cols{grid-template-columns:1fr 1fr}@media(max-width:640px){.dash-cols{grid-template-columns:1fr!important}}</style>`;
+  }
+
+  // ── COURSE SETTINGS TAB ──
+  else if (activeTab==='settings') {
+    html += renderCourseSettings(courseId, c);
+  }
+
+  html += '</div>';
   document.getElementById('content').innerHTML = html;
 }
 
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach((t,i) => {
-    const panes = document.querySelectorAll('.tab-pane');
-    const names = ['students','lectures'];
-    const idx = names.indexOf(name);
-    t.classList.toggle('active', i===idx);
-    if(panes[i]) panes[i].classList.toggle('active', i===idx);
+// ── Components & Marks (full implementation) ──
+function renderComponentsAndMarks(courseId, c, students, components) {
+  const allMarks = DB.studentMarks();
+
+  // Calculate grades for each student
+  const totalWeight = components.reduce((s,cp)=>s+parseFloat(cp.weight||0),0);
+
+  function calcGrade(studentId) {
+    if (!components.length) return {pct:null, grade:'—'};
+    let weighted = 0, filled = 0;
+    components.forEach(cp => {
+      const m = allMarks.find(mk=>mk.studentId===studentId && mk.componentId===cp.id);
+      if (m && m.marks!=='' && m.marks!==null && m.marks!==undefined) {
+        const pct = parseFloat(m.marks)/parseFloat(cp.maxMarks)*100;
+        weighted += pct*parseFloat(cp.weight);
+        filled += parseFloat(cp.weight);
+      }
+    });
+    if (!filled) return {pct:null, grade:'—'};
+    const pct = Math.round(weighted/filled*10)/10;
+    const gs = c.gradeScheme || DEFAULT_GRADE_SCHEME;
+    const g = gs.find(x=>pct>=x.minPct);
+    return {pct, grade: g?g.grade:'F'};
+  }
+
+  const gradeClass = g => {
+    const map = {'O':'O','A+':'Ap','A':'A','B+':'Bp','B':'B','C+':'Cp','C':'C','D':'D','F':'F'};
+    return map[g] || '';
+  };
+
+  let html = `
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+    <div>
+      <div style="font-weight:700;color:var(--primary)">Mark Components & Student Marks</div>
+      <div style="font-size:12px;color:var(--text-muted)">Total weight: ${totalWeight}% (should be 100%)</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-outline btn-sm" onclick="openImportMarks('${courseId}')">📥 Import Marks (Excel)</button>
+      <button class="btn btn-outline btn-sm" onclick="exportMarks('${courseId}')">📤 Export Marks</button>
+      <button class="btn btn-outline btn-sm" onclick="openGradeScheme('${courseId}')">🎓 Grade Scheme</button>
+      <button class="btn btn-primary btn-sm" onclick="openAddComponent('${courseId}')">+ Add Component</button>
+    </div>
+  </div>`;
+
+  if (!components.length) {
+    return html + `<div class="empty">No mark components defined. Add components like Quiz 1, Mid-Term, End-Term, Assignments, etc.</div>`;
+  }
+
+  if (!students.length) {
+    return html + `<div class="empty">No students enrolled. Add students first.</div>`;
+  }
+
+  html += `
+  ${totalWeight!==100?`<div class="alert-banner" style="margin-bottom:12px"><span>⚠️</span><span>Total weight is ${totalWeight}%, not 100%. Adjust component weights.</span></div>`:''}
+  <div style="overflow-x:auto;margin-bottom:16px">
+    <table class="marks-table">
+      <thead>
+        <tr>
+          <th style="min-width:130px;position:sticky;left:0;background:#F8FAFC;z-index:3">Student</th>
+          <th style="min-width:70px">Roll No</th>
+          ${components.map(cp=>`<th class="comp-header" style="min-width:80px" title="${cp.name}">${cp.name}<div style="font-weight:400;font-size:10px;opacity:.7">/${cp.maxMarks} (${cp.weight}%)</div></th>`).join('')}
+          <th style="min-width:80px;text-align:center">Score%</th>
+          <th style="min-width:60px;text-align:center">Grade</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${students.map(s => {
+          const {pct, grade} = calcGrade(s.id);
+          return `<tr>
+            <td style="font-weight:600;position:sticky;left:0;background:#fff;z-index:1">${s.name}</td>
+            <td style="font-size:12px;color:var(--text-muted)">${s.rollNo||'—'}</td>
+            ${components.map(cp=>{
+              const mk = allMarks.find(m=>m.studentId===s.id&&m.componentId===cp.id);
+              const val = mk ? mk.marks : '';
+              const over = val!=='' && parseFloat(val)>parseFloat(cp.maxMarks);
+              return `<td style="text-align:center"><input class="marks-input${over?' over':val!==''?' filled':''}"
+                type="number" min="0" max="${cp.maxMarks}" step="0.5" value="${val}"
+                onblur="saveMark('${s.id}','${cp.id}',this)"
+                oninput="validateMarkInput(this,${cp.maxMarks})"
+                placeholder="—"></td>`;
+            }).join('')}
+            <td class="marks-total-cell">${pct!==null?pct+'%':'—'}</td>
+            <td style="text-align:center"><span class="badge grade-${gradeClass(grade)}">${grade}</span></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:12px">
+    <strong>Components:</strong>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px">
+      ${components.map(cp=>`<div class="comp-card" style="flex:0 0 auto;padding:10px 14px;background:#F8FAFC">
+        <div>
+          <div style="font-weight:700;font-size:14px">${cp.name}</div>
+          <div style="font-size:12px;color:var(--text-muted)">Max: ${cp.maxMarks} · Weight: ${cp.weight}% · ${cp.type}</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-danger btn-sm btn-icon" onclick="deleteComponent('${cp.id}','${courseId}')">🗑</button>
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+  return html;
+}
+
+function validateMarkInput(input, max) {
+  const val = parseFloat(input.value);
+  input.classList.toggle('over', !isNaN(val) && val > max);
+  input.classList.toggle('filled', input.value !== '' && !isNaN(val) && val <= max);
+}
+
+function saveMark(studentId, componentId, inputEl) {
+  const val = inputEl.value.trim();
+  const marks = DB.studentMarks();
+  const idx = marks.findIndex(m=>m.studentId===studentId&&m.componentId===componentId);
+  if (val==='' || val===null) {
+    if (idx>=0) marks.splice(idx,1);
+  } else {
+    if (idx>=0) marks[idx].marks = val;
+    else marks.push({id:uid(), studentId, componentId, marks:val});
+  }
+  DB.saveStudentMarks(marks);
+}
+
+function openAddComponent(courseId) {
+  const existing = DB.courseComponents().filter(c=>c.courseId===courseId);
+  const usedWeight = existing.reduce((s,c)=>s+parseFloat(c.weight||0),0);
+  openModal('Add Mark Component', `
+    <div class="form-grid">
+      <div class="form-group" style="grid-column:1/-1"><label>Component Name *</label><input id="cp-name" placeholder="e.g. Quiz 1, Mid-Term, Assignment 1"></div>
+      <div class="form-group"><label>Type</label>
+        <select id="cp-type"><option>Quiz</option><option>Mid-Term</option><option>End-Term</option><option>Assignment</option><option>Lab</option><option>Project</option><option>Other</option></select></div>
+      <div class="form-group"><label>Maximum Marks *</label><input type="number" id="cp-max" placeholder="e.g. 20" min="1"></div>
+      <div class="form-group"><label>Weight (%) *</label><input type="number" id="cp-weight" placeholder="e.g. 20" min="0.1" step="0.5" value="${Math.max(0,100-usedWeight)}"></div>
+    </div>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:8px">Used weight: ${usedWeight}% · Remaining: ${100-usedWeight}%</div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="saveComponent('${courseId}')">Add Component</button>`);
+}
+
+function saveComponent(courseId) {
+  const name = document.getElementById('cp-name').value.trim();
+  const max = document.getElementById('cp-max').value;
+  const weight = document.getElementById('cp-weight').value;
+  if (!name || !max || !weight) { toast('All fields required','error'); return; }
+  const comps = DB.courseComponents();
+  comps.push({id:uid(), courseId, name, type:document.getElementById('cp-type').value,
+    maxMarks:parseFloat(max), weight:parseFloat(weight), order:comps.filter(c=>c.courseId===courseId).length+1});
+  DB.saveCourseComponents(comps);
+  closeModal(); toast('Component added','ok');
+  navigate('course-detail',{courseId, tab:'components'});
+}
+
+function deleteComponent(id, courseId) {
+  if (!confirm('Delete this component and all its marks?')) return;
+  DB.saveCourseComponents(DB.courseComponents().filter(c=>c.id!==id));
+  DB.saveStudentMarks(DB.studentMarks().filter(m=>m.componentId!==id));
+  toast('Component deleted'); navigate('course-detail',{courseId, tab:'components'});
+}
+
+function exportMarks(courseId) {
+  const c = courseById(courseId);
+  const students = DB.students().filter(s=>s.courseId===courseId);
+  const components = DB.courseComponents().filter(cp=>cp.courseId===courseId).sort((a,b)=>a.order-b.order);
+  const allMarks = DB.studentMarks();
+  const gs = c.gradeScheme || DEFAULT_GRADE_SCHEME;
+
+  function calcGrade(sid) {
+    if (!components.length) return {pct:null,grade:'—'};
+    let w=0,filled=0;
+    components.forEach(cp=>{
+      const m=allMarks.find(mk=>mk.studentId===sid&&mk.componentId===cp.id);
+      if (m&&m.marks!=='') { w+=parseFloat(m.marks)/parseFloat(cp.maxMarks)*100*parseFloat(cp.weight); filled+=parseFloat(cp.weight); }
+    });
+    if (!filled) return {pct:null,grade:'—'};
+    const pct=Math.round(w/filled*10)/10;
+    const g=gs.find(x=>pct>=x.minPct);
+    return {pct, grade:g?g.grade:'F'};
+  }
+
+  const header = ['Roll No','Name',...components.map(cp=>`${cp.name} (/${cp.maxMarks})`),'Score %','Grade'];
+  const rows = students.map(s => {
+    const {pct,grade} = calcGrade(s.id);
+    return [s.rollNo||'', s.name, ...components.map(cp=>{
+      const m=allMarks.find(mk=>mk.studentId===s.id&&mk.componentId===cp.id);
+      return m?m.marks:'';
+    }), pct||'', grade];
   });
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet([header,...rows]);
+  XLSX.utils.book_append_sheet(wb, ws, 'Marks');
+  XLSX.writeFile(wb, `${c.code}_Marks.xlsx`);
+  toast('Marks exported','ok');
+}
+
+function openGradeScheme(courseId) {
+  const courses = DB.courses();
+  const c = courses.find(x=>x.id===courseId);
+  const scheme = c?.gradeScheme || DEFAULT_GRADE_SCHEME;
+  openModal('Grade Scheme', `
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Minimum percentage required for each grade. Adjust as per institute norms.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      ${scheme.map(g=>`<div style="display:flex;align-items:center;gap:8px">
+        <span class="badge grade-${g.grade==='A+'?'Ap':g.grade.replace('+','p')}" style="width:36px;text-align:center">${g.grade}</span>
+        <input type="number" id="gs-${g.grade.replace('+','p')}" value="${g.minPct}" min="0" max="100" style="width:70px;padding:6px;border:1.5px solid var(--border);border-radius:6px;font-size:13px">
+        <span style="font-size:12px;color:var(--text-muted)">% and above</span>
+      </div>`).join('')}
+    </div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="saveGradeScheme('${courseId}')">Save Scheme</button>`);
+}
+
+function saveGradeScheme(courseId) {
+  const courses = DB.courses();
+  const c = courses.find(x=>x.id===courseId);
+  if (!c) return;
+  const scheme = DEFAULT_GRADE_SCHEME.map(g => ({
+    grade: g.grade,
+    minPct: parseFloat(document.getElementById('gs-'+g.grade.replace('+','p'))?.value||g.minPct)
+  })).sort((a,b)=>b.minPct-a.minPct);
+  c.gradeScheme = scheme;
+  DB.saveCourses(courses);
+  closeModal(); toast('Grade scheme saved','ok');
+}
+
+// ── Timetable functions ──
+function openAddTTSlot(courseId) {
+  openModal('Add Timetable Slot', `
+    <div class="form-grid">
+      <div class="form-group"><label>Day *</label>
+        <select id="tt-day"><option>Mon</option><option>Tue</option><option>Wed</option><option>Thu</option><option>Fri</option><option>Sat</option></select></div>
+      <div class="form-group"><label>Type</label>
+        <select id="tt-type"><option>Lecture</option><option>Lab</option><option>Tutorial</option></select></div>
+      <div class="form-group"><label>Start Time *</label><input type="time" id="tt-start" value="09:00"></div>
+      <div class="form-group"><label>End Time *</label><input type="time" id="tt-end" value="10:00"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Room / Location</label><input id="tt-room" placeholder="e.g. LH-201, Lab-B3"></div>
+    </div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="saveTTSlot('${courseId}')">Add Slot</button>`);
+}
+
+function saveTTSlot(courseId) {
+  const day = document.getElementById('tt-day').value;
+  const start = document.getElementById('tt-start').value;
+  const end = document.getElementById('tt-end').value;
+  if (!start || !end) { toast('Start and end time required','error'); return; }
+  const tt = DB.courseTimetable();
+  tt.push({id:uid(), courseId, day, startTime:start, endTime:end,
+    room:document.getElementById('tt-room').value.trim(),
+    type:document.getElementById('tt-type').value});
+  DB.saveCourseTimetable(tt);
+  closeModal(); toast('Slot added','ok');
+  navigate('course-detail',{courseId, tab:'timetable'});
+}
+
+function deleteTTSlot(id, courseId) {
+  if (!confirm('Remove this slot?')) return;
+  DB.saveCourseTimetable(DB.courseTimetable().filter(t=>t.id!==id));
+  toast('Slot removed'); navigate('course-detail',{courseId, tab:'timetable'});
+}
+
+// ── Course Settings Tab ──
+function renderCourseSettings(courseId, c) {
+  const assignedTAs = DB.tas().filter(ta=>(ta.courseIds||[]).includes(courseId));
+  return `
+  <div style="display:grid;gap:20px">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-header"><h3>Teaching Assistants (${assignedTAs.length})</h3>
+        <button class="btn btn-primary btn-sm" onclick="openAssignTA('${courseId}')">Assign TA</button>
+      </div>
+      <div class="card-body">
+        ${assignedTAs.length===0?'<div style="color:var(--text-muted);font-size:13px">No TAs assigned. TAs can mark attendance and enter marks.</div>':
+          `<div style="display:flex;flex-direction:column;gap:10px">
+            ${assignedTAs.map(ta=>`<div style="display:flex;align-items:center;gap:12px;padding:10px;background:#F8FAFC;border-radius:8px">
+              <div style="width:36px;height:36px;border-radius:50%;background:#7C3AED;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">${ta.name[0]}</div>
+              <div style="flex:1">
+                <div style="font-weight:600">${ta.name}</div>
+                <div style="font-size:12px;color:var(--text-muted)">Login ID: ${ta.loginId}</div>
+              </div>
+              <button class="btn btn-danger btn-sm" onclick="removeTAFromCourse('${ta.id}','${courseId}')">Remove</button>
+            </div>`).join('')}
+          </div>`}
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-header"><h3>Danger Zone</h3></div>
+      <div class="card-body">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border:1.5px solid var(--danger);border-radius:8px;background:#FEF2F2">
+          <div>
+            <div style="font-weight:600;color:var(--danger)">Delete This Course</div>
+            <div style="font-size:12px;color:var(--text-muted)">Permanently deletes course, all students, lectures, attendance and marks.</div>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="safeDeleteCourse('${courseId}')">Delete Course</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
 }
 
 // ── Add Student ──
@@ -803,7 +1385,7 @@ function saveStudent(courseId) {
   DB.saveStudents(students);
   closeModal();
   toast('Student added','ok');
-  renderCourseDetail(courseId);
+  navigate('course-detail',{courseId});
 }
 
 function deleteStudent(id, courseId) {
@@ -812,7 +1394,7 @@ function deleteStudent(id, courseId) {
   // Remove their attendance
   DB.saveAttendance(DB.attendance().filter(a=>a.studentId!==id));
   toast('Student removed');
-  renderCourseDetail(courseId);
+  navigate('course-detail',{courseId});
 }
 
 // ── Bulk import ──
@@ -837,7 +1419,7 @@ function doBulkImport(courseId) {
   DB.saveStudents(students);
   closeModal();
   toast(`${count} students imported`,'ok');
-  renderCourseDetail(courseId);
+  navigate('course-detail',{courseId});
 }
 
 // ── Add Lecture ──
@@ -872,7 +1454,7 @@ function deleteLecture(id, courseId) {
   DB.saveLectures(DB.lectures().filter(l=>l.id!==id));
   DB.saveAttendance(DB.attendance().filter(a=>a.lectureId!==id));
   toast('Lecture deleted');
-  renderCourseDetail(courseId);
+  navigate('course-detail',{courseId});
 }
 
 // ── Open lecture from dashboard ──
@@ -918,7 +1500,7 @@ function openAttendance(lectureId, courseId) {
       </div>
     </div>
     <div class="att-grid">${rows}</div>`,
-    `<button class="btn btn-outline" onclick="closeModal();navigate('courses',{courseId:'${courseId}'})">Done</button>
+    `<button class="btn btn-outline" onclick="closeModal();navigate('course-detail',{courseId:'${courseId}',tab:'lectures'})">Done</button>
      <button class="btn btn-success" onclick="exportAttendance('${courseId}')">📥 Export Excel</button>`);
 
   updateAttSummary(lectureId);
@@ -1257,85 +1839,6 @@ function rsStudentCards(list) {
   </div>`;
 }
 
-function renderResStudentDetail(params={}) {
-  const s = DB.resStudents().find(x=>x.id===params.id);
-  if (!s) { navigate('res-students'); return; }
-  const milestones = s.milestones||[];
-  const meetings = s.meetings||[];
-  const today = todayStr();
-
-  const html = `
-  <div style="margin-bottom:16px">
-    <button class="btn btn-outline btn-sm" onclick="navigate('res-students')">← Back</button>
-  </div>
-  <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap">
-    <div style="width:52px;height:52px;border-radius:14px;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff">👨‍🎓</div>
-    <div style="flex:1">
-      <h2 style="font-size:20px;color:var(--primary)">${s.name}</h2>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
-        <span class="badge ${RS_CAT_CLS[s.category]||''}">${s.category}</span>
-        <span style="font-size:13px;color:var(--text-muted)">${s.rollNo||'—'}</span>
-        ${s.coSupervisor?`<span style="font-size:13px;color:var(--text-muted)">Co-Sup: ${s.coSupervisor}</span>`:''}
-        ${s.fundingStatus?`<span class="badge badge-pending">${s.fundingStatus}</span>`:''}
-      </div>
-    </div>
-    <button class="btn btn-outline btn-sm" onclick="openEditResStudent('${s.id}')">✏️ Edit</button>
-  </div>
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-body">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;font-size:14px">
-        <div><div style="color:var(--text-muted);font-size:11px;font-weight:700">TOPIC</div><div style="font-weight:600;margin-top:2px">${s.topic||'—'}</div></div>
-        <div><div style="color:var(--text-muted);font-size:11px;font-weight:700">REGISTRATION</div><div style="font-weight:600;margin-top:2px">${fmtDate(s.regDate)}</div></div>
-        <div><div style="color:var(--text-muted);font-size:11px;font-weight:700">FUNDING</div><div style="font-weight:600;margin-top:2px">${s.fundingStatus||'—'}${s.fundingDetails?` — ${s.fundingDetails}`:''}</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="tabs">
-    <div class="tab active" data-tabfor="sd" onclick="activateTab('sd',0)">📌 Milestones (${milestones.length})</div>
-    <div class="tab" data-tabfor="sd" onclick="activateTab('sd',1)">📝 Meeting Log (${meetings.length})</div>
-  </div>
-  <div class="tab-pane active" data-tabgroup="sd">
-    <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
-      <button class="btn btn-primary btn-sm" onclick="openAddMilestone('${s.id}')">+ Add Milestone</button>
-    </div>
-    ${milestones.length===0?'<div class="empty">No milestones added yet.</div>':`
-    <div class="card"><div class="tbl-wrap"><table>
-      <thead><tr><th>Milestone</th><th>Deadline</th><th>Status</th><th>Actions</th></tr></thead>
-      <tbody>${milestones.map(m=>{
-        const overdue = m.status==='pending' && m.deadline && m.deadline<today;
-        return `<tr>
-          <td>${m.title}</td>
-          <td style="${overdue?'color:#DC2626;font-weight:700':''}">${fmtDate(m.deadline)}${overdue?' ⚠️':''}</td>
-          <td><span class="badge badge-${m.status==='done'?'done':'pending'}">${m.status}</span></td>
-          <td style="display:flex;gap:6px">
-            <button class="btn btn-outline btn-sm" onclick="toggleMilestone('${s.id}','${m.id}','${m.status==='done'?'pending':'done'}')">${m.status==='done'?'↩ Reopen':'✓ Done'}</button>
-            <button class="btn btn-danger btn-sm btn-icon" onclick="deleteMilestone('${s.id}','${m.id}')">🗑</button>
-          </td>
-        </tr>`;}).join('')}
-      </tbody>
-    </table></div></div>`}
-  </div>
-  <div class="tab-pane" data-tabgroup="sd">
-    <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
-      <button class="btn btn-primary btn-sm" onclick="openAddRsMeeting('${s.id}')">+ Log Meeting</button>
-    </div>
-    ${meetings.length===0?'<div class="empty">No meetings logged yet.</div>':`
-    <div style="display:flex;flex-direction:column;gap:14px">
-      ${[...meetings].reverse().map(m=>`
-        <div class="card">
-          <div class="card-header">
-            <div><div style="font-weight:700">${fmtDate(m.date)}</div></div>
-            <button class="btn btn-danger btn-sm btn-icon" onclick="deleteRsMeeting('${s.id}','${m.id}')">🗑</button>
-          </div>
-          ${m.notes?`<div class="card-body" style="font-size:14px;white-space:pre-wrap">${m.notes}</div>`:''}
-          ${m.nextSteps?`<div style="padding:10px 18px 14px;font-size:13px;color:var(--text-muted)"><strong>Next Steps:</strong> ${m.nextSteps}</div>`:''}
-        </div>`).join('')}
-    </div>`}
-  </div>`;
-
-  document.getElementById('content').innerHTML = html;
-}
-
 function openAddResStudent() {
   openModal('Add Research Student', `
     <div class="form-grid">
@@ -1417,22 +1920,10 @@ function saveMilestone(studentId) {
   if (!s.milestones) s.milestones=[];
   s.milestones.push({id:uid(), title, deadline:document.getElementById('ms-deadline').value, status:'pending'});
   DB.saveResStudents(students); closeModal(); toast('Milestone added','ok');
-  renderResStudentDetail({id:studentId});
+  navigate('res-student-detail',{id:studentId,tab:'milestones'});
 }
 
-function toggleMilestone(studentId, milestoneId, newStatus) {
-  const students = DB.resStudents();
-  const s = students.find(x=>x.id===studentId); if (!s) return;
-  const m = (s.milestones||[]).find(m=>m.id===milestoneId);
-  if (m) { m.status=newStatus; DB.saveResStudents(students); toast('Updated','ok'); renderResStudentDetail({id:studentId}); }
-}
-
-function deleteMilestone(studentId, milestoneId) {
-  if (!confirm('Delete this milestone?')) return;
-  const students = DB.resStudents();
-  const s = students.find(x=>x.id===studentId); if (!s) return;
-  s.milestones = (s.milestones||[]).filter(m=>m.id!==milestoneId);
-  DB.saveResStudents(students); toast('Milestone deleted'); renderResStudentDetail({id:studentId});
+// toggleMilestone and deleteMilestone defined later with tab param support
 }
 
 function openAddRsMeeting(studentId) {
@@ -1454,7 +1945,7 @@ function saveRsMeeting(studentId) {
   if (!s.meetings) s.meetings=[];
   s.meetings.push({id:uid(), date, notes:document.getElementById('rsm-notes').value.trim(), nextSteps:document.getElementById('rsm-next').value.trim()});
   DB.saveResStudents(students); closeModal(); toast('Meeting logged','ok');
-  renderResStudentDetail({id:studentId});
+  navigate('res-student-detail',{id:studentId,tab:'meetings'});
 }
 
 function deleteRsMeeting(studentId, meetingId) {
@@ -1462,7 +1953,7 @@ function deleteRsMeeting(studentId, meetingId) {
   const students = DB.resStudents();
   const s = students.find(x=>x.id===studentId); if (!s) return;
   s.meetings = (s.meetings||[]).filter(m=>m.id!==meetingId);
-  DB.saveResStudents(students); toast('Meeting deleted'); renderResStudentDetail({id:studentId});
+  DB.saveResStudents(students); toast('Meeting deleted'); navigate('res-student-detail',{id:studentId,tab:'meetings'});
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1705,57 +2196,6 @@ function generateQuotation() {
 //  MODULE 4 — BUDGET TRACKER
 // ═══════════════════════════════════════════════════════
 const EXP_CATS = ['Equipment','Consumables','Travel','Manpower','Misc'];
-
-function renderBudget() {
-  const heads = DB.budgetHeads();
-  const expenses = DB.expenses();
-
-  let html = `
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
-    <div class="section-title" style="margin:0">💰 Budget Tracker</div>
-    <button class="btn btn-primary" onclick="openAddExpense()">+ Add Expense</button>
-  </div>`;
-
-  heads.forEach(h => {
-    const hExp = expenses.filter(e=>e.head===h.head);
-    const spent = hExp.reduce((s,e)=>s+parseFloat(e.amount||0),0);
-    const total = parseFloat(h.total||0);
-    const remaining = total-spent;
-    const pct = total>0 ? Math.min(100,Math.round(spent/total*100)) : 0;
-    const barColor = pct>=90?'#DC2626':pct>=70?'#CA8A04':'#10B981';
-
-    html += `<div class="budget-head-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-        <h3 style="font-size:16px;font-weight:700;color:var(--primary)">${h.name}</h3>
-        <button class="btn btn-outline btn-sm" onclick="openSetBudget('${h.head}')">⚙️ Set Total</button>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:14px">
-        <div><div style="font-size:11px;color:var(--text-muted);font-weight:700">TOTAL BUDGET</div><div style="font-size:22px;font-weight:700;color:var(--primary)">₹${total.toLocaleString('en-IN')}</div></div>
-        <div><div style="font-size:11px;color:var(--text-muted);font-weight:700">SPENT</div><div style="font-size:22px;font-weight:700;color:#DC2626">₹${spent.toLocaleString('en-IN')}</div></div>
-        <div><div style="font-size:11px;color:var(--text-muted);font-weight:700">REMAINING</div><div style="font-size:22px;font-weight:700;color:var(--success)">₹${remaining.toLocaleString('en-IN')}</div></div>
-      </div>
-      ${total>0?`<div style="margin-bottom:14px">
-        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:4px"><span>Utilisation</span><span style="color:${barColor};font-weight:700">${pct}%</span></div>
-        <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${barColor}"></div></div>
-      </div>`:''}
-      ${hExp.length>0?`
-      <div class="card"><div class="tbl-wrap"><table>
-        <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Voucher</th><th>Status</th><th></th></tr></thead>
-        <tbody>${[...hExp].reverse().map(e=>`<tr>
-          <td style="white-space:nowrap">${fmtDate(e.date)}</td>
-          <td><span class="badge badge-pending">${e.category}</span></td>
-          <td>${e.description||'—'}</td>
-          <td style="font-weight:700">₹${Number(e.amount||0).toLocaleString('en-IN')}</td>
-          <td style="font-size:12px;color:var(--text-muted)">${e.voucherNo||'—'}</td>
-          <td><span class="badge badge-${e.status==='received'?'received':e.status==='submitted'?'submitted':'pending'}">${e.status||'pending'}</span></td>
-          <td><button class="btn btn-danger btn-sm btn-icon" onclick="deleteExpense('${e.id}')">🗑</button></td>
-        </tr>`).join('')}</tbody>
-      </table></div></div>`:'<div style="color:var(--text-muted);font-size:13px">No expenses yet.</div>'}
-    </div>`;
-  });
-
-  document.getElementById('content').innerHTML = html;
-}
 
 function openSetBudget(head) {
   const h = DB.budgetHeads().find(x=>x.head===head);
@@ -2087,74 +2527,6 @@ const COURSE_COLORS = [
   { color:'#64748B', bg:'#F8FAFC', label:'Slate'  },
 ];
 
-function renderSettings() {
-  const courses = DB.courses();
-  const colorSwatches = COURSE_COLORS.map((cc,i) =>
-    `<div class="color-swatch" data-idx="${i}" style="width:28px;height:28px;border-radius:50%;background:${cc.color};cursor:pointer;border:2px solid transparent" title="${cc.label}" onclick="selectColor(${i})"></div>`
-  ).join('');
-
-  let html = `
-  <div class="section-title">⚙️ Settings</div>
-
-  <!-- COURSES MANAGEMENT -->
-  <div class="card" style="margin-bottom:20px">
-    <div class="card-header">
-      <h3>📚 Manage Courses</h3>
-      <button class="btn btn-primary btn-sm" onclick="openAddCourse()">+ Add Course</button>
-    </div>
-    <div class="card-body" style="padding:0">
-      ${courses.length === 0 ? '<div class="empty">No courses. Add one above.</div>' : `
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Color</th><th>Course Name</th><th>Code</th><th>Students</th><th>Actions</th></tr></thead>
-          <tbody>
-            ${courses.map(c => {
-              const studs = DB.students().filter(s=>s.courseId===c.id).length;
-              return `<tr>
-                <td><div style="width:20px;height:20px;border-radius:50%;background:${c.color}"></div></td>
-                <td style="font-weight:600">${c.name}</td>
-                <td><span class="course-chip" style="background:${c.color}20;color:${c.color}">${c.code||'—'}</span></td>
-                <td>${studs}</td>
-                <td style="display:flex;gap:6px">
-                  <button class="btn btn-outline btn-sm" onclick="openEditCourse('${c.id}')">✏️ Edit</button>
-                  <button class="btn btn-danger btn-sm" onclick="deleteCourse('${c.id}')">🗑 Delete</button>
-                </td>
-              </tr>`;
-            }).join('')}
-          </tbody>
-        </table>
-      </div>`}
-    </div>
-  </div>
-
-  <!-- GOOGLE SHEETS -->
-  <div class="card" style="margin-bottom:20px">
-    <div class="card-header"><h3>☁️ Google Sheets Sync</h3></div>
-    <div class="card-body">
-      <div class="form-group" style="margin-bottom:14px">
-        <label>Apps Script Web App URL</label>
-        <input id="cfg-sheets" value="${CFG.SHEETS_URL}" placeholder="https://script.google.com/macros/s/...">
-      </div>
-      <button class="btn btn-primary" onclick="saveSheetsUrlFromSettings()">Save URL</button>
-      ${CFG.SHEETS_URL ? `<button class="btn btn-outline" style="margin-left:8px" onclick="loadFromSheets()">⬇ Load from Sheets</button>` : ''}
-    </div>
-  </div>
-
-  <!-- CHANGE PASSWORD -->
-  <div class="card">
-    <div class="card-header"><h3>🔑 Change Password</h3></div>
-    <div class="card-body">
-      <div class="form-grid">
-        <div class="form-group"><label>New Password</label><input type="password" id="cfg-pwd1" placeholder="New password"></div>
-        <div class="form-group"><label>Confirm Password</label><input type="password" id="cfg-pwd2" placeholder="Repeat password"></div>
-      </div>
-      <button class="btn btn-primary" style="margin-top:14px" onclick="changePassword()">Update Password</button>
-    </div>
-  </div>`;
-
-  document.getElementById('content').innerHTML = html;
-}
-
 // ── Add Course ──
 function openAddCourse() {
   openModal('Add New Course', buildCourseForm(), `
@@ -2224,22 +2596,7 @@ function saveCourse(id) {
   DB.saveCourses(courses);
   closeModal();
   toast(id ? 'Course updated' : 'Course added','ok');
-  renderSettings();
-}
-
-function deleteCourse(id) {
-  const studs = DB.students().filter(s=>s.courseId===id).length;
-  const lecs  = DB.lectures().filter(l=>l.courseId===id).length;
-  let warn = 'Delete this course?';
-  if (studs || lecs) warn = `This course has ${studs} student(s) and ${lecs} lecture(s). All their data will also be removed. Continue?`;
-  if (!confirm(warn)) return;
-  DB.saveCourses(DB.courses().filter(c=>c.id!==id));
-  DB.saveStudents(DB.students().filter(s=>s.courseId!==id));
-  const lectureIds = DB.lectures().filter(l=>l.courseId===id).map(l=>l.id);
-  DB.saveLectures(DB.lectures().filter(l=>l.courseId!==id));
-  DB.saveAttendance(DB.attendance().filter(a=>!lectureIds.includes(a.lectureId)));
-  toast('Course deleted');
-  renderSettings();
+  navigate('settings', {section:'courses'});
 }
 
 // ── Settings helpers ──
@@ -2263,19 +2620,820 @@ async function changePassword() {
   toast('Password changed successfully','ok');
 }
 
+// ── Safe Course Delete (type name to confirm) ──
+function safeDeleteCourse(id) {
+  const c = courseById(id);
+  openModal('⚠️ Delete Course', `
+    <div class="alert-banner danger" style="margin-bottom:14px">
+      <span>⚠️</span>
+      <div>This will permanently delete <strong>${c.name}</strong> and all associated students, lectures, attendance records, marks, and timetable. This cannot be undone.</div>
+    </div>
+    <div class="form-group">
+      <label>Type the course name to confirm: <strong>${c.name}</strong></label>
+      <input id="del-confirm" class="danger-input" placeholder="${c.name}" oninput="document.getElementById('del-course-btn').disabled=this.value!=='${c.name.replace(/'/g,"\\'")}'" >
+    </div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button id="del-course-btn" class="btn btn-danger" disabled onclick="execDeleteCourse('${id}')">Delete Permanently</button>`);
+}
+
+function execDeleteCourse(id) {
+  const lectureIds = DB.lectures().filter(l=>l.courseId===id).map(l=>l.id);
+  DB.saveCourses(DB.courses().filter(c=>c.id!==id));
+  DB.saveStudents(DB.students().filter(s=>s.courseId!==id));
+  DB.saveLectures(DB.lectures().filter(l=>l.courseId!==id));
+  DB.saveAttendance(DB.attendance().filter(a=>!lectureIds.includes(a.lectureId)));
+  DB.saveCourseComponents(DB.courseComponents().filter(c=>c.courseId!==id));
+  DB.saveStudentMarks(DB.studentMarks().filter(m=>{
+    const comp = DB.courseComponents().find(c=>c.id===m.componentId);
+    return comp; // keep marks whose component still exists
+  }));
+  DB.saveCourseTimetable(DB.courseTimetable().filter(t=>t.courseId!==id));
+  closeModal(); toast('Course deleted');
+  navigate('courses');
+}
+
+// ── TA Assignment ──
+function openAssignTA(courseId) {
+  const allTAs = DB.tas();
+  const already = allTAs.filter(ta=>(ta.courseIds||[]).includes(courseId));
+  const available = allTAs.filter(ta=>!(ta.courseIds||[]).includes(courseId));
+  openModal('Assign TA to Course', `
+    ${already.length?`<div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px">ALREADY ASSIGNED</div>
+      ${already.map(ta=>`<div style="padding:6px 10px;background:#EDE9FE;border-radius:6px;margin-bottom:4px;font-size:13px">${ta.name} (${ta.loginId})</div>`).join('')}
+    </div>`:''}
+    ${available.length===0?`<div class="empty" style="padding:20px">No available TAs. <a href="#" onclick="closeModal();navigate('settings')">Create TAs in Settings →</a></div>`:`
+    <div class="form-group"><label>Select TA to Assign</label>
+      <select id="assign-ta-id">
+        <option value="">— Select TA —</option>
+        ${available.map(ta=>`<option value="${ta.id}">${ta.name} (${ta.loginId})</option>`).join('')}
+      </select>
+    </div>`}`,
+    available.length?`<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="doAssignTA('${courseId}')">Assign</button>`:
+    `<button class="btn btn-outline" onclick="closeModal()">Close</button>`);
+}
+
+function doAssignTA(courseId) {
+  const taId = document.getElementById('assign-ta-id').value;
+  if (!taId) { toast('Select a TA','error'); return; }
+  const tas = DB.tas();
+  const ta = tas.find(t=>t.id===taId);
+  if (!ta) return;
+  if (!ta.courseIds) ta.courseIds=[];
+  if (!ta.courseIds.includes(courseId)) ta.courseIds.push(courseId);
+  DB.saveTAs(tas);
+  closeModal(); toast('TA assigned','ok');
+  navigate('course-detail',{courseId, tab:'settings'});
+}
+
+function removeTAFromCourse(taId, courseId) {
+  if (!confirm('Remove this TA from the course?')) return;
+  const tas = DB.tas();
+  const ta = tas.find(t=>t.id===taId);
+  if (ta) ta.courseIds = (ta.courseIds||[]).filter(c=>c!==courseId);
+  DB.saveTAs(tas);
+  toast('TA removed'); navigate('course-detail',{courseId, tab:'settings'});
+}
+
+// ═══════════════════════════════════════════════════════
+//  TA DASHBOARD (restricted view)
+// ═══════════════════════════════════════════════════════
+function renderTADashboard() {
+  const ta = TA.obj();
+  if (!ta) { navigate('dashboard'); return; }
+  const assignedCourseIds = ta.courseIds || [];
+  const courses = DB.courses().filter(c=>assignedCourseIds.includes(c.id));
+
+  let html = `
+  <div style="margin-bottom:20px">
+    <h2 style="font-size:18px;color:var(--primary)">Welcome, ${ta.name}</h2>
+    <p style="font-size:13px;color:var(--text-muted)">You have access to ${courses.length} course(s). Select a course to mark attendance or enter marks.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px">
+    ${courses.map(c=>{
+      const students = DB.students().filter(s=>s.courseId===c.id);
+      const lectures = DB.lectures().filter(l=>l.courseId===c.id);
+      return `<div class="card" style="border-top:4px solid ${c.color}">
+        <div class="card-body">
+          <span class="course-chip" style="background:${c.color}20;color:${c.color}">${c.code}</span>
+          <h3 style="font-size:16px;color:var(--primary);margin:8px 0">${c.name}</h3>
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${students.length} students · ${lectures.length} lectures</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" onclick="openAddLecture('${c.id}')">+ Mark Attendance</button>
+            <button class="btn btn-outline btn-sm" onclick="navigate('course-detail',{courseId:'${c.id}',tab:'components'})">Enter Marks</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}
+    ${courses.length===0?'<div class="empty card" style="padding:50px">No courses assigned to you yet. Contact your professor.</div>':''}
+  </div>`;
+  document.getElementById('content').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+//  EXCEL IMPORT
+// ═══════════════════════════════════════════════════════
+function openImportStudents(courseId) {
+  openModal('Import Students from Excel', `
+    <div class="alert-banner info" style="margin-bottom:14px">
+      <span>ℹ️</span>
+      <div style="font-size:13px">Excel file should have columns: <strong>Roll No</strong> | <strong>Name</strong><br>First row is treated as header.</div>
+    </div>
+    <div class="form-group">
+      <label>Select Excel File (.xlsx / .xls)</label>
+      <input type="file" id="import-file" accept=".xlsx,.xls,.csv" style="border:1.5px dashed var(--border);border-radius:8px;padding:10px;width:100%;cursor:pointer">
+    </div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="doImportStudentsExcel('${courseId}')">Import</button>`);
+}
+
+async function doImportStudentsExcel(courseId) {
+  const file = document.getElementById('import-file').files[0];
+  if (!file) { toast('Select a file','error'); return; }
+  try {
+    const data = await file.arrayBuffer();
+    const wb = XLSX.read(data);
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+    if (rows.length < 2) { toast('File appears empty','error'); return; }
+    // Auto-detect roll/name columns
+    const header = rows[0].map(h=>String(h).toLowerCase().trim());
+    const rollIdx = header.findIndex(h=>h.includes('roll')||h.includes('id')||h.includes('enroll'));
+    const nameIdx = header.findIndex(h=>h.includes('name'));
+    const students = DB.students();
+    let count = 0;
+    for (let i=1; i<rows.length; i++) {
+      const row = rows[i];
+      const name = nameIdx>=0 ? String(row[nameIdx]||'').trim() : String(row[1]||'').trim();
+      const roll = rollIdx>=0 ? String(row[rollIdx]||'').trim() : String(row[0]||'').trim();
+      if (name) { students.push({id:uid(), name, rollNo:roll, courseId}); count++; }
+    }
+    DB.saveStudents(students);
+    closeModal();
+    toast(`${count} students imported from Excel`,'ok');
+    navigate('course-detail',{courseId, tab:'lectures'});
+  } catch(e) { toast('Error reading file: '+e.message,'error'); }
+}
+
+function openImportMarks(courseId) {
+  const components = DB.courseComponents().filter(c=>c.courseId===courseId);
+  openModal('Import Marks from Excel', `
+    <div class="alert-banner info" style="margin-bottom:14px">
+      <span>ℹ️</span>
+      <div style="font-size:13px">Excel file should have: <strong>Roll No</strong> column, then one column per component with component name as header.<br>
+        Components in this course: <strong>${components.map(c=>c.name).join(', ')||'None defined'}</strong></div>
+    </div>
+    <div class="form-group">
+      <label>Select Excel File (.xlsx / .xls)</label>
+      <input type="file" id="import-marks-file" accept=".xlsx,.xls,.csv" style="border:1.5px dashed var(--border);border-radius:8px;padding:10px;width:100%;cursor:pointer">
+    </div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="doImportMarksExcel('${courseId}')">Import</button>`);
+}
+
+async function doImportMarksExcel(courseId) {
+  const file = document.getElementById('import-marks-file').files[0];
+  if (!file) { toast('Select a file','error'); return; }
+  try {
+    const data = await file.arrayBuffer();
+    const wb = XLSX.read(data);
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+    if (rows.length < 2) { toast('File appears empty','error'); return; }
+    const header = rows[0].map(h=>String(h).toLowerCase().trim());
+    const rollIdx = header.findIndex(h=>h.includes('roll')||h.includes('id'));
+    const components = DB.courseComponents().filter(c=>c.courseId===courseId);
+    const students = DB.students().filter(s=>s.courseId===courseId);
+    const marks = DB.studentMarks();
+    let count = 0;
+    for (let i=1; i<rows.length; i++) {
+      const row = rows[i];
+      const roll = rollIdx>=0 ? String(row[rollIdx]||'').trim() : String(row[0]||'').trim();
+      const student = students.find(s=>s.rollNo===roll||(s.name&&String(s.name).toLowerCase()===roll.toLowerCase()));
+      if (!student) continue;
+      components.forEach(cp => {
+        const colIdx = header.findIndex(h=>h===cp.name.toLowerCase().trim()||h.includes(cp.name.toLowerCase().trim().slice(0,5)));
+        if (colIdx<0) return;
+        const val = row[colIdx];
+        if (val===''||val===null||val===undefined) return;
+        const idx = marks.findIndex(m=>m.studentId===student.id&&m.componentId===cp.id);
+        if (idx>=0) marks[idx].marks = String(val);
+        else marks.push({id:uid(), studentId:student.id, componentId:cp.id, marks:String(val)});
+        count++;
+      });
+    }
+    DB.saveStudentMarks(marks);
+    closeModal();
+    toast(`${count} mark(s) imported from Excel`,'ok');
+    navigate('course-detail',{courseId, tab:'components'});
+  } catch(e) { toast('Error reading file: '+e.message,'error'); }
+}
+
+// ═══════════════════════════════════════════════════════
+//  SETTINGS — COMPREHENSIVE REWRITE
+// ═══════════════════════════════════════════════════════
+function renderSettings(params={}) {
+  const section = params.section || 'courses';
+  const sections = [
+    {id:'courses', label:'📚 Courses'},
+    {id:'tas', label:'👤 Teaching Assistants'},
+    {id:'semester', label:'🗓 Semester'},
+    {id:'sheets', label:'☁️ Google Sheets'},
+    {id:'backup', label:'💾 Backup & Restore'},
+    {id:'password', label:'🔑 Password'},
+  ];
+
+  let html = `
+  <div class="section-title">⚙️ Settings</div>
+  <div class="settings-nav">
+    ${sections.map(s=>`<div class="settings-nav-item ${s.id===section?'active':''}" onclick="navigate('settings',{section:'${s.id}'})">${s.label}</div>`).join('')}
+  </div>`;
+
+  // ── COURSES ──
+  if (section==='courses') {
+    const courses = DB.courses();
+    html += `
+    <div class="card">
+      <div class="card-header"><h3>Manage Courses</h3><button class="btn btn-primary btn-sm" onclick="openAddCourse()">+ Add Course</button></div>
+      <div class="card-body" style="padding:0">
+        ${courses.length===0?'<div class="empty">No courses. Add one above.</div>':`
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Color</th><th>Course Name</th><th>Code</th><th>Students</th><th>Components</th><th>Actions</th></tr></thead>
+            <tbody>
+              ${courses.map(c=>{
+                const studs = DB.students().filter(s=>s.courseId===c.id).length;
+                const comps = DB.courseComponents().filter(cp=>cp.courseId===c.id).length;
+                return `<tr>
+                  <td><div style="width:20px;height:20px;border-radius:50%;background:${c.color}"></div></td>
+                  <td><strong>${c.name}</strong></td>
+                  <td><span class="course-chip" style="background:${c.color}20;color:${c.color}">${c.code||'—'}</span></td>
+                  <td>${studs}</td>
+                  <td>${comps}</td>
+                  <td style="display:flex;gap:6px">
+                    <button class="btn btn-outline btn-sm" onclick="navigate('course-detail',{courseId:'${c.id}'})">Open</button>
+                    <button class="btn btn-outline btn-sm" onclick="openEditCourse('${c.id}')">✏️ Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="safeDeleteCourse('${c.id}')">🗑 Delete</button>
+                  </td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>`}
+      </div>
+    </div>`;
+  }
+
+  // ── TEACHING ASSISTANTS ──
+  else if (section==='tas') {
+    const tas = DB.tas();
+    html += `
+    <div class="card">
+      <div class="card-header"><h3>Teaching Assistants</h3><button class="btn btn-primary btn-sm" onclick="openAddTA()">+ Create TA</button></div>
+      <div class="card-body" style="padding:0">
+        ${tas.length===0?'<div class="empty">No TAs created yet. Create a TA to allow restricted access for marking attendance and entering marks.</div>':`
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Login ID</th><th>Assigned Courses</th><th>Actions</th></tr></thead>
+            <tbody>
+              ${tas.map(ta=>`<tr>
+                <td><strong>${ta.name}</strong></td>
+                <td><code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;font-size:12px">${ta.loginId}</code></td>
+                <td style="font-size:13px">${(ta.courseIds||[]).map(cid=>courseById(cid).name).join(', ')||'None'}</td>
+                <td style="display:flex;gap:6px">
+                  <button class="btn btn-outline btn-sm" onclick="resetTAPassword('${ta.id}')">🔑 Reset PW</button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteTA('${ta.id}')">🗑</button>
+                </td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`}
+      </div>
+    </div>`;
+  }
+
+  // ── SEMESTER ──
+  else if (section==='semester') {
+    html += `
+    <div class="card">
+      <div class="card-header"><h3>Semester & Year Settings</h3></div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div class="form-group"><label>Current Semester</label>
+            <select id="cfg-sem">
+              ${['Semester 1','Semester 2','Semester 3','Semester 4','Semester 5','Semester 6','Semester 7','Semester 8'].map(s=>`<option ${s===CFG.SEMESTER?'selected':''}>${s}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group"><label>Academic Year</label>
+            <input id="cfg-year" value="${CFG.YEAR}" placeholder="e.g. 2025-26">
+          </div>
+          <div class="form-group"><label>Institution Name</label>
+            <input id="cfg-inst" value="${localStorage.getItem('acad_inst')||'IIT Indore'}" placeholder="Institution name">
+          </div>
+          <div class="form-group"><label>Department</label>
+            <input id="cfg-dept" value="${localStorage.getItem('acad_dept')||'Civil Engineering'}" placeholder="Department name">
+          </div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:8px" onclick="saveSemesterSettings()">Save Settings</button>
+      </div>
+    </div>`;
+  }
+
+  // ── GOOGLE SHEETS ──
+  else if (section==='sheets') {
+    html += `
+    <div class="card">
+      <div class="card-header"><h3>☁️ Google Sheets Sync</h3></div>
+      <div class="card-body">
+        <div class="form-group" style="margin-bottom:14px">
+          <label>Apps Script Web App URL</label>
+          <input id="cfg-sheets" value="${CFG.SHEETS_URL}" placeholder="https://script.google.com/macros/s/...">
+        </div>
+        <button class="btn btn-primary" onclick="saveSheetsUrlFromSettings()">Save URL</button>
+        ${CFG.SHEETS_URL?`<button class="btn btn-outline" style="margin-left:8px" onclick="loadFromSheets()">⬇ Load from Sheets</button>`:''}
+        <div style="margin-top:16px;padding:14px;background:#F8FAFC;border-radius:8px;font-size:13px;color:var(--text-muted)">
+          <strong>How to set up Sheets sync:</strong><br>1. Create a Google Apps Script project linked to your Sheets file.<br>2. Deploy as Web App (Anyone, even anonymous).<br>3. Paste the Web App URL above.
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // ── BACKUP & RESTORE ──
+  else if (section==='backup') {
+    html += `
+    <div class="card">
+      <div class="card-header"><h3>💾 Backup & Restore</h3></div>
+      <div class="card-body">
+        <div style="display:grid;gap:16px">
+          <div style="padding:14px;background:#ECFDF5;border-radius:10px;border:1px solid #A7F3D0">
+            <div style="font-weight:700;margin-bottom:6px;color:#065F46">⬇️ Export All Data</div>
+            <div style="font-size:13px;color:#047857;margin-bottom:12px">Download a complete backup of all your data as a JSON file. Keep this safe.</div>
+            <button class="btn btn-success" onclick="exportAllData()">Download Backup</button>
+          </div>
+          <div style="padding:14px;background:#FEF3C7;border-radius:10px;border:1px solid #FDE68A">
+            <div style="font-weight:700;margin-bottom:6px;color:#92400E">⬆️ Restore from Backup</div>
+            <div style="font-size:13px;color:#78350F;margin-bottom:12px">Upload a previously downloaded JSON backup. ⚠️ This will overwrite all current data.</div>
+            <input type="file" id="restore-file" accept=".json" style="display:block;margin-bottom:10px;font-size:13px">
+            <button class="btn btn-outline" onclick="restoreAllData()">Restore Backup</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // ── PASSWORD ──
+  else if (section==='password') {
+    html += `
+    <div class="card">
+      <div class="card-header"><h3>🔑 Change Professor Password</h3></div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div class="form-group"><label>New Password</label><input type="password" id="cfg-pwd1" placeholder="New password"></div>
+          <div class="form-group"><label>Confirm Password</label><input type="password" id="cfg-pwd2" placeholder="Repeat password"></div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:14px" onclick="changePassword()">Update Password</button>
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('content').innerHTML = html;
+}
+
+// Settings helper functions
+function saveSemesterSettings() {
+  CFG.SEMESTER = document.getElementById('cfg-sem').value;
+  CFG.YEAR = document.getElementById('cfg-year').value;
+  localStorage.setItem('acad_inst', document.getElementById('cfg-inst').value);
+  localStorage.setItem('acad_dept', document.getElementById('cfg-dept').value);
+  toast('Settings saved','ok');
+}
+
+function exportAllData() {
+  const data = {
+    version: 2, exportedAt: new Date().toISOString(),
+    courses: DB.courses(), students: DB.students(), lectures: DB.lectures(),
+    attendance: DB.attendance(), tasks: DB.tasks(),
+    courseComponents: DB.courseComponents(), studentMarks: DB.studentMarks(),
+    courseTimetable: DB.courseTimetable(), tas: DB.tas(),
+    resStudents: DB.resStudents(), resProjects: DB.resProjects(), conProjects: DB.conProjects(),
+    budgetHeads: DB.budgetHeads(), expenses: DB.expenses(),
+    meetings: DB.meetings(), shortCourses: DB.shortCourses(),
+  };
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `acadmanager_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  toast('Backup downloaded','ok');
+}
+
+function restoreAllData() {
+  const file = document.getElementById('restore-file').files[0];
+  if (!file) { toast('Select a backup file','error'); return; }
+  if (!confirm('⚠️ This will overwrite ALL current data. Are you sure?')) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.courses) DB.saveCourses(data.courses);
+      if (data.students) DB.saveStudents(data.students);
+      if (data.lectures) DB.saveLectures(data.lectures);
+      if (data.attendance) DB.saveAttendance(data.attendance);
+      if (data.tasks) DB.saveTasks(data.tasks);
+      if (data.courseComponents) DB.saveCourseComponents(data.courseComponents);
+      if (data.studentMarks) DB.saveStudentMarks(data.studentMarks);
+      if (data.courseTimetable) DB.saveCourseTimetable(data.courseTimetable);
+      if (data.tas) DB.saveTAs(data.tas);
+      if (data.resStudents) DB.saveResStudents(data.resStudents);
+      if (data.resProjects) DB.saveResProjects(data.resProjects);
+      if (data.conProjects) DB.saveConProjects(data.conProjects);
+      if (data.budgetHeads) DB.saveBudgetHeads(data.budgetHeads);
+      if (data.expenses) DB.saveExpenses(data.expenses);
+      if (data.meetings) DB.saveMeetings(data.meetings);
+      if (data.shortCourses) DB.saveShortCourses(data.shortCourses);
+      toast('Data restored! Refreshing...','ok');
+      setTimeout(()=>location.reload(), 1500);
+    } catch(err) { toast('Invalid backup file: '+err.message,'error'); }
+  };
+  reader.readAsText(file);
+}
+
+// TA management
+function openAddTA() {
+  openModal('Create Teaching Assistant', `
+    <div class="alert-banner info" style="margin-bottom:14px"><span>ℹ️</span><div style="font-size:13px">TAs can log in with their credentials to mark attendance and enter marks for assigned courses.</div></div>
+    <div class="form-grid">
+      <div class="form-group" style="grid-column:1/-1"><label>Full Name *</label><input id="ta-name" placeholder="e.g. Rajesh Kumar"></div>
+      <div class="form-group"><label>Login ID *</label><input id="ta-lid" placeholder="e.g. rajesh.ta (no spaces)"></div>
+      <div class="form-group"><label>Password *</label><input type="password" id="ta-pwd" placeholder="Min 6 characters"></div>
+    </div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="saveTA()">Create TA</button>`);
+}
+
+async function saveTA() {
+  const name = document.getElementById('ta-name').value.trim();
+  const lid = document.getElementById('ta-lid').value.trim().toLowerCase().replace(/\s+/g,'.');
+  const pwd = document.getElementById('ta-pwd').value;
+  if (!name || !lid || !pwd) { toast('All fields required','error'); return; }
+  if (pwd.length < 6) { toast('Password must be at least 6 characters','error'); return; }
+  const existing = DB.tas().find(t=>t.loginId===lid);
+  if (existing) { toast('Login ID already exists','error'); return; }
+  const hash = await sha256(pwd);
+  const tas = DB.tas();
+  tas.push({id:uid(), name, loginId:lid, passwordHash:hash, courseIds:[]});
+  DB.saveTAs(tas);
+  closeModal(); toast('TA created','ok');
+  navigate('settings',{section:'tas'});
+}
+
+async function resetTAPassword(taId) {
+  openModal('Reset TA Password', `
+    <div class="form-group"><label>New Password *</label><input type="password" id="ta-new-pwd" placeholder="Min 6 characters"></div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="doResetTAPassword('${taId}')">Reset</button>`);
+}
+
+async function doResetTAPassword(taId) {
+  const pwd = document.getElementById('ta-new-pwd').value;
+  if (!pwd || pwd.length<6) { toast('Password must be at least 6 characters','error'); return; }
+  const hash = await sha256(pwd);
+  const tas = DB.tas();
+  const ta = tas.find(t=>t.id===taId);
+  if (ta) { ta.passwordHash = hash; DB.saveTAs(tas); }
+  closeModal(); toast('Password reset','ok');
+}
+
+function deleteTA(taId) {
+  if (!confirm('Delete this TA account?')) return;
+  DB.saveTAs(DB.tas().filter(t=>t.id!==taId));
+  toast('TA deleted'); navigate('settings',{section:'tas'});
+}
+
+// ═══════════════════════════════════════════════════════
+//  RESEARCH STUDENTS ENHANCEMENTS (Publications)
+// ═══════════════════════════════════════════════════════
+// Override renderResStudentDetail to add Publications tab
+const _origRenderResStudentDetail = renderResStudentDetail;
+function renderResStudentDetail(params={}) {
+  const s = DB.resStudents().find(x=>x.id===params.id);
+  if (!s) { navigate('res-students'); return; }
+  const milestones = s.milestones||[];
+  const meetings = s.meetings||[];
+  const publications = s.publications||[];
+  const today = todayStr();
+  const tab = params.tab || 'milestones';
+
+  const html = `
+  <div style="margin-bottom:16px">
+    <button class="btn btn-outline btn-sm" onclick="navigate('res-students')">← Back</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap">
+    <div style="width:52px;height:52px;border-radius:14px;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff">👨‍🎓</div>
+    <div style="flex:1">
+      <h2 style="font-size:20px;color:var(--primary)">${s.name}</h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
+        <span class="badge ${s.category==='PhD'?'cat-phd':s.category==='MTech'?'cat-mtech':'cat-btech'}">${s.category}</span>
+        <span style="font-size:13px;color:var(--text-muted)">${s.rollNo||'—'}</span>
+        ${s.fundingStatus?`<span class="badge badge-pending">${s.fundingStatus}</span>`:''}
+      </div>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="openEditResStudent('${s.id}')">✏️ Edit</button>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;font-size:14px">
+        <div><div style="color:var(--text-muted);font-size:11px;font-weight:700">TOPIC</div><div style="font-weight:600;margin-top:2px">${s.topic||'—'}</div></div>
+        <div><div style="color:var(--text-muted);font-size:11px;font-weight:700">REGISTRATION</div><div style="font-weight:600;margin-top:2px">${fmtDate(s.regDate)}</div></div>
+        <div><div style="color:var(--text-muted);font-size:11px;font-weight:700">FUNDING</div><div style="font-weight:600;margin-top:2px">${s.fundingStatus||'—'}${s.fundingDetails?` — ${s.fundingDetails}`:''}</div></div>
+        ${s.coSupervisor?`<div><div style="color:var(--text-muted);font-size:11px;font-weight:700">CO-SUPERVISOR</div><div style="font-weight:600;margin-top:2px">${s.coSupervisor}</div></div>`:''}
+      </div>
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab ${tab==='milestones'?'active':''}" onclick="navigate('res-student-detail',{id:'${s.id}',tab:'milestones'})">📌 Milestones (${milestones.length})</div>
+    <div class="tab ${tab==='meetings'?'active':''}" onclick="navigate('res-student-detail',{id:'${s.id}',tab:'meetings'})">📝 Meetings (${meetings.length})</div>
+    <div class="tab ${tab==='publications'?'active':''}" onclick="navigate('res-student-detail',{id:'${s.id}',tab:'publications'})">📄 Publications (${publications.length})</div>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;padding:20px">
+
+  ${tab==='milestones'?`
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+      <button class="btn btn-primary btn-sm" onclick="openAddMilestone('${s.id}')">+ Add Milestone</button>
+    </div>
+    ${milestones.length===0?'<div class="empty">No milestones added yet.</div>':`
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Milestone</th><th>Deadline</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>${milestones.map(m=>{
+        const overdue = m.status==='pending' && m.deadline && m.deadline<today;
+        return `<tr>
+          <td style="font-weight:600">${m.title}</td>
+          <td style="${overdue?'color:#DC2626;font-weight:700':''}">${fmtDate(m.deadline)}${overdue?' ⚠️':''}</td>
+          <td><span class="badge badge-${m.status==='done'?'done':'pending'}">${m.status}</span></td>
+          <td style="display:flex;gap:6px">
+            <button class="btn btn-outline btn-sm" onclick="toggleMilestone('${s.id}','${m.id}','${m.status==='done'?'pending':'done'}','${tab}')">${m.status==='done'?'↩ Reopen':'✓ Done'}</button>
+            <button class="btn btn-danger btn-sm btn-icon" onclick="deleteMilestone('${s.id}','${m.id}','${tab}')">🗑</button>
+          </td>
+        </tr>`;}).join('')}
+      </tbody>
+    </table></div>`}`:''}
+
+  ${tab==='meetings'?`
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+      <button class="btn btn-primary btn-sm" onclick="openAddRsMeeting('${s.id}')">+ Log Meeting</button>
+    </div>
+    ${meetings.length===0?'<div class="empty">No meetings logged yet.</div>':`
+    <div style="display:flex;flex-direction:column;gap:14px">
+      ${[...meetings].reverse().map(m=>`
+        <div class="card">
+          <div class="card-header">
+            <div><div style="font-weight:700">${fmtDate(m.date)}</div></div>
+            <button class="btn btn-danger btn-sm btn-icon" onclick="deleteRsMeeting('${s.id}','${m.id}')">🗑</button>
+          </div>
+          ${m.notes?`<div class="card-body" style="font-size:14px;white-space:pre-wrap">${m.notes}</div>`:''}
+          ${m.nextSteps?`<div style="padding:10px 18px 14px;font-size:13px;color:var(--text-muted)"><strong>Next Steps:</strong> ${m.nextSteps}</div>`:''}
+        </div>`).join('')}
+    </div>`}`:''}
+
+  ${tab==='publications'?`
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+      <button class="btn btn-primary btn-sm" onclick="openAddPublication('${s.id}')">+ Add Publication</button>
+    </div>
+    ${publications.length===0?'<div class="empty">No publications added yet. Track journal papers, conference papers, and book chapters here.</div>':`
+    <div style="display:flex;flex-direction:column;gap:12px">
+      ${publications.map(p=>`
+        <div class="pub-card">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:14px;color:var(--primary)">${p.title}</div>
+              <div style="font-size:13px;color:var(--text-muted);margin-top:4px">${p.journal||p.conference||'—'} · ${p.year||'—'}</div>
+              ${p.authors?`<div style="font-size:12px;color:var(--text-muted)">Authors: ${p.authors}</div>`:''}
+              ${p.doi?`<div style="font-size:12px;margin-top:4px"><a href="https://doi.org/${p.doi}" target="_blank" style="color:var(--primary-light)">DOI: ${p.doi}</a></div>`:''}
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+              <span class="badge badge-${p.status==='Published'?'received':p.status==='Accepted'?'active':p.status==='Under Review'?'in-progress':'pending'}">${p.status||'Draft'}</span>
+              <span class="badge badge-pending">${p.type||'Journal'}</span>
+              <button class="btn btn-danger btn-sm btn-icon" onclick="deletePublication('${s.id}','${p.id}')">🗑</button>
+            </div>
+          </div>
+        </div>`).join('')}
+    </div>`}`:''}
+
+  </div>`;
+  document.getElementById('content').innerHTML = html;
+}
+
+function openAddPublication(studentId) {
+  openModal('Add Publication', `
+    <div class="form-grid">
+      <div class="form-group" style="grid-column:1/-1"><label>Title *</label><input id="pub-title" placeholder="Full title of the paper/article"></div>
+      <div class="form-group"><label>Type</label>
+        <select id="pub-type"><option>Journal</option><option>Conference</option><option>Book Chapter</option><option>Patent</option><option>Other</option></select></div>
+      <div class="form-group"><label>Status</label>
+        <select id="pub-status"><option>Draft</option><option>Submitted</option><option>Under Review</option><option>Accepted</option><option>Published</option><option>Rejected</option></select></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Journal / Conference Name</label><input id="pub-journal" placeholder="e.g. Engineering Geology, ASCE JGGE"></div>
+      <div class="form-group"><label>Year</label><input type="number" id="pub-year" placeholder="${new Date().getFullYear()}" min="1990" max="2035"></div>
+      <div class="form-group"><label>DOI (optional)</label><input id="pub-doi" placeholder="10.xxxx/xxxxxxx"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Authors (in order)</label><input id="pub-authors" placeholder="Singh P., Sharma R., et al."></div>
+    </div>`,
+    `<button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+     <button class="btn btn-primary" onclick="savePublication('${studentId}')">Add Publication</button>`);
+}
+
+function savePublication(studentId) {
+  const title = document.getElementById('pub-title').value.trim();
+  if (!title) { toast('Title required','error'); return; }
+  const students = DB.resStudents();
+  const s = students.find(x=>x.id===studentId); if (!s) return;
+  if (!s.publications) s.publications=[];
+  s.publications.push({id:uid(), title, type:document.getElementById('pub-type').value,
+    status:document.getElementById('pub-status').value,
+    journal:document.getElementById('pub-journal').value.trim(),
+    year:document.getElementById('pub-year').value,
+    doi:document.getElementById('pub-doi').value.trim(),
+    authors:document.getElementById('pub-authors').value.trim()});
+  DB.saveResStudents(students);
+  closeModal(); toast('Publication added','ok');
+  navigate('res-student-detail',{id:studentId, tab:'publications'});
+}
+
+function deletePublication(studentId, pubId) {
+  if (!confirm('Delete this publication record?')) return;
+  const students = DB.resStudents();
+  const s = students.find(x=>x.id===studentId); if (!s) return;
+  s.publications = (s.publications||[]).filter(p=>p.id!==pubId);
+  DB.saveResStudents(students);
+  toast('Deleted'); navigate('res-student-detail',{id:studentId, tab:'publications'});
+}
+
+// Override toggleMilestone and deleteMilestone to pass tab param
+function toggleMilestone(studentId, milestoneId, newStatus, tab='milestones') {
+  const students = DB.resStudents();
+  const s = students.find(x=>x.id===studentId); if (!s) return;
+  const m = (s.milestones||[]).find(m=>m.id===milestoneId);
+  if (m) { m.status=newStatus; DB.saveResStudents(students); toast('Updated','ok'); navigate('res-student-detail',{id:studentId,tab}); }
+}
+
+function deleteMilestone(studentId, milestoneId, tab='milestones') {
+  if (!confirm('Delete this milestone?')) return;
+  const students = DB.resStudents();
+  const s = students.find(x=>x.id===studentId); if (!s) return;
+  s.milestones = (s.milestones||[]).filter(m=>m.id!==milestoneId);
+  DB.saveResStudents(students); toast('Milestone deleted'); navigate('res-student-detail',{id:studentId,tab});
+}
+
+// ═══════════════════════════════════════════════════════
+//  BUDGET REPORTING ENHANCEMENTS
+// ═══════════════════════════════════════════════════════
+function renderBudget(params={}) {
+  const section = params.section || 'tracker';
+  const heads = DB.budgetHeads();
+  const expenses = DB.expenses();
+
+  let html = `
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+    <div class="section-title" style="margin:0">💰 Budget Management</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn ${section==='tracker'?'btn-primary':'btn-outline'} btn-sm" onclick="renderBudget({section:'tracker'})">Tracker</button>
+      <button class="btn ${section==='report'?'btn-primary':'btn-outline'} btn-sm" onclick="renderBudget({section:'report'})">Category Report</button>
+      <button class="btn btn-primary btn-sm" onclick="openAddExpense()">+ Add Expense</button>
+    </div>
+  </div>`;
+
+  if (section==='tracker') {
+    heads.forEach(h => {
+      const hExp = expenses.filter(e=>e.head===h.head);
+      const spent = hExp.reduce((s,e)=>s+parseFloat(e.amount||0),0);
+      const total = parseFloat(h.total||0);
+      const remaining = total-spent;
+      const pct = total>0 ? Math.min(100,Math.round(spent/total*100)) : 0;
+      const barColor = pct>=90?'#DC2626':pct>=70?'#CA8A04':'#10B981';
+
+      html += `<div class="budget-head-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <h3 style="font-size:16px;font-weight:700;color:var(--primary)">${h.name}</h3>
+          <button class="btn btn-outline btn-sm" onclick="openSetBudget('${h.head}')">⚙️ Set Total</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:14px">
+          <div><div style="font-size:11px;color:var(--text-muted);font-weight:700">TOTAL</div><div style="font-size:22px;font-weight:700;color:var(--primary)">₹${total.toLocaleString('en-IN')}</div></div>
+          <div><div style="font-size:11px;color:var(--text-muted);font-weight:700">SPENT</div><div style="font-size:22px;font-weight:700;color:#DC2626">₹${spent.toLocaleString('en-IN')}</div></div>
+          <div><div style="font-size:11px;color:var(--text-muted);font-weight:700">REMAINING</div><div style="font-size:22px;font-weight:700;color:var(--success)">₹${remaining.toLocaleString('en-IN')}</div></div>
+        </div>
+        ${total>0?`<div style="margin-bottom:14px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:4px"><span>Utilisation</span><span style="color:${barColor};font-weight:700">${pct}%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${barColor}"></div></div>
+        </div>`:''}
+        ${hExp.length>0?`
+        <div class="card" style="margin-bottom:0"><div class="tbl-wrap"><table>
+          <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Voucher</th><th>Status</th><th></th></tr></thead>
+          <tbody>${[...hExp].reverse().map(e=>`<tr>
+            <td style="white-space:nowrap;font-size:12px">${fmtDate(e.date)}</td>
+            <td><span class="badge badge-pending">${e.category}</span></td>
+            <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.description||'—'}</td>
+            <td style="font-weight:700">₹${Number(e.amount||0).toLocaleString('en-IN')}</td>
+            <td style="font-size:12px;color:var(--text-muted)">${e.voucherNo||'—'}</td>
+            <td><span class="badge badge-${e.status==='received'?'received':e.status==='submitted'?'submitted':'pending'}">${e.status||'pending'}</span></td>
+            <td><button class="btn btn-danger btn-sm btn-icon" onclick="deleteExpense('${e.id}')">🗑</button></td>
+          </tr>`).join('')}</tbody>
+        </table></div></div>`:'<div style="color:var(--text-muted);font-size:13px;padding-top:8px">No expenses yet.</div>'}
+      </div>`;
+    });
+  }
+
+  else if (section==='report') {
+    const EXP_CATS = ['Equipment','Consumables','Travel','Manpower','Misc'];
+    html += `<div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>Category-wise Breakdown</h3></div>
+      <div class="card-body">
+        ${heads.map(h=>{
+          const hExp = expenses.filter(e=>e.head===h.head);
+          const total = hExp.reduce((s,e)=>s+parseFloat(e.amount||0),0);
+          return total>0?`<div style="margin-bottom:20px">
+            <div style="font-weight:700;color:var(--primary);margin-bottom:10px">${h.name} — ₹${total.toLocaleString('en-IN')} total</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px">
+              ${EXP_CATS.map(cat=>{
+                const catExp = hExp.filter(e=>e.category===cat);
+                const catTotal = catExp.reduce((s,e)=>s+parseFloat(e.amount||0),0);
+                const pct = total>0?Math.round(catTotal/total*100):0;
+                return catTotal>0?`<div style="padding:12px;background:#F8FAFC;border-radius:8px;border:1px solid var(--border)">
+                  <div style="font-size:12px;font-weight:700;color:var(--text-muted)">${cat.toUpperCase()}</div>
+                  <div style="font-size:18px;font-weight:700;color:var(--primary);margin:4px 0">₹${catTotal.toLocaleString('en-IN')}</div>
+                  <div style="font-size:12px;color:var(--text-muted)">${pct}% of total · ${catExp.length} entries</div>
+                  <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:var(--primary-light)"></div></div>
+                </div>`:'';
+              }).join('')}
+            </div>
+          </div>`:'';
+        }).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h3>Reimbursement Status Summary</h3>
+        <button class="btn btn-outline btn-sm" onclick="exportExpenses()">📥 Export Excel</button>
+      </div>
+      <div class="card-body">
+        ${['pending','submitted','received'].map(status=>{
+          const statusExp = expenses.filter(e=>(e.status||'pending')===status);
+          const statusTotal = statusExp.reduce((s,e)=>s+parseFloat(e.amount||0),0);
+          return statusExp.length?`<div style="display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--border)">
+            <span class="badge badge-${status==='received'?'received':status==='submitted'?'submitted':'pending'}" style="min-width:80px;text-align:center;text-transform:capitalize">${status}</span>
+            <div style="flex:1">
+              <div style="font-weight:600">${statusExp.length} expense(s)</div>
+              <div style="font-size:12px;color:var(--text-muted)">${statusExp.map(e=>e.description).slice(0,3).join(', ')}${statusExp.length>3?'...':''}</div>
+            </div>
+            <div style="font-size:18px;font-weight:700;color:var(--primary)">₹${statusTotal.toLocaleString('en-IN')}</div>
+          </div>`:'';
+        }).join('')}
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('content').innerHTML = html;
+}
+
+function exportExpenses() {
+  const expenses = DB.expenses();
+  const heads = DB.budgetHeads();
+  const header = ['Date','Budget Head','Category','Description','Amount (₹)','Voucher No.','Status'];
+  const rows = expenses.map(e=>[
+    e.date, heads.find(h=>h.head===e.head)?.name||e.head,
+    e.category, e.description, e.amount, e.voucherNo||'', e.status||'pending'
+  ]);
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet([header,...rows]);
+  XLSX.utils.book_append_sheet(wb, ws, 'Expenses');
+  XLSX.writeFile(wb, `Budget_Expenses_${todayStr()}.xlsx`);
+  toast('Expenses exported','ok');
+}
+
 // ═══════════════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', () => {
-  // Check if already logged in (same session)
   if (sessionStorage.getItem('acad_auth')==='1') {
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app').style.display='block';
-    navigate('dashboard');
+    // Restore TA session if needed
+    const taId = sessionStorage.getItem('ta_id');
+    if (taId) {
+      const ta = DB.tas().find(t=>t.id===taId);
+      if (ta) {
+        document.getElementById('ta-banner').style.display='flex';
+        document.getElementById('ta-name-display').textContent = ta.name;
+        document.getElementById('sync-btn').style.display='none';
+        navigate('ta-dashboard');
+      } else {
+        sessionStorage.removeItem('ta_id');
+        document.getElementById('sync-btn').style.display='flex';
+        navigate('dashboard');
+      }
+    } else {
+      document.getElementById('sync-btn').style.display='flex';
+      navigate('dashboard');
+    }
   }
-  // Set default password hash if not set
-  // Default password is: IITIndore@2025
-  // To change, use: sha256('your-new-password') in browser console and update CFG.PASSWORD_HASH
 });
 </script>
 </body>
